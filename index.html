@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combinatorics Masterclass - Final Perfect Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap');
+        
+        body { font-family: 'Sarabun', sans-serif; background: linear-gradient(135deg, #0f172a 0%, #020617 100%); color: #f8fafc; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        .glass-panel { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .slide { display: none; opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); height: 100%; }
+        .slide.active { display: block; opacity: 1; transform: translateY(0); }
+        
+        .nav-btn { position: relative; transition: all 0.3s ease; color: #94a3b8; white-space: nowrap; }
+        .nav-btn:hover { color: #f8fafc; }
+        .nav-btn.active { color: #38bdf8; font-weight: 600; }
+        .nav-btn.active::after { content: ''; position: absolute; bottom: -1rem; left: 0; width: 100%; height: 3px; background: #38bdf8; border-radius: 3px 3px 0 0; }
+
+        /* ====== Slide 1 & 2: Cars ====== */
+        .car-red { filter: hue-rotate(0deg) drop-shadow(-5px -5px 5px rgba(0,0,0,0.5)); }
+        .car-yellow { filter: hue-rotate(50deg) saturate(2) brightness(1.2) drop-shadow(-5px -5px 5px rgba(0,0,0,0.5)); }
+        .car-purple { filter: hue-rotate(270deg) drop-shadow(-5px -5px 5px rgba(0,0,0,0.5)); }
+        .car-blue { filter: hue-rotate(210deg) drop-shadow(-5px -5px 5px rgba(0,0,0,0.5)); }
+        .car-black { filter: grayscale(1) brightness(0.2) drop-shadow(-5px -5px 5px rgba(0,0,0,0.8)); }
+        
+        .car-wrapper { width: 80px; height: 80px; display: inline-flex; align-items: center; justify-content: center; }
+        .car-emoji { font-size: 4rem; cursor: grab; display: inline-block; position: relative; transform: scaleX(-1); transition: transform 0.2s ease, filter 0.3s; }
+        .car-emoji:hover { transform: scaleX(-1) scale(1.15) translateY(-5px); }
+        .car-emoji:active { cursor: grabbing; transform: scaleX(-1) scale(1.1); }
+        .car-finished { pointer-events: none; }
+        
+        /* ====== Slide 0: Intro Track ====== */
+        .intro-car { position: absolute; font-size: 4rem; left: -150px; top: 50%; transform: translateY(-50%) scaleX(-1); z-index: 10; }
+        @keyframes raceDash { 0% { left: -150px; transform: translateY(-50%) scaleX(-1); } 100% { left: 120vw; transform: translateY(-50%) scaleX(-1); } }
+
+        /* ====== Finish Slots ====== */
+        .finish-slot { border: 2px dashed #475569; position: relative; border-radius: 1rem; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
+        .finish-slot.drag-over { background: rgba(56, 189, 248, 0.2); border-color: #38bdf8; transform: scale(1.05); }
+        .finish-slot::after { content: attr(data-rank); position: absolute; bottom: -30px; left: 0; width: 100%; text-align: center; font-size: 0.9rem; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
+
+        /* ====== Slide 3: Safe Dials ====== */
+        .safe-window { width: 100px; height: 140px; border-radius: 12px; overflow: hidden; position: relative; border: 4px solid #334155; background: linear-gradient(to bottom, #0f172a 0%, #334155 50%, #0f172a 100%); box-shadow: inset 0 10px 20px rgba(0,0,0,0.8), inset 0 -10px 20px rgba(0,0,0,0.8), 0 10px 20px rgba(0,0,0,0.5); }
+        .safe-strip { display: flex; flex-direction: column; align-items: center; }
+        .safe-num { height: 140px; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 5rem; font-family: monospace; font-weight: bold; color: #f8fafc; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+
+        /* ====== Slide 4: Apples ====== */
+        .apple-pool { position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; z-index: 50; }
+        .apple-item { font-size: 3.5rem; cursor: pointer; display: flex; flex-col; align-items: center; position: relative; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); }
+        .apple-item:hover { transform: scale(1.15) translateY(-5px); }
+        .apple-picked { pointer-events: none; opacity: 0; transform: scale(0); }
+        
+        .basket-slot { border: 2px dashed #10b981; border-radius: 1rem; position: relative; display: flex; align-items: center; justify-content: center; }
+        .basket-slot::after { content: attr(data-slot); position: absolute; bottom: -25px; left: 0; width: 100%; text-align: center; font-size: 0.8rem; color: #10b981; font-weight: bold; }
+
+        /* ====== Slide 5: Deep Dive ====== */
+        .perm-box { border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); border-radius: 12px; padding: 10px; display: flex; gap: 5px; justify-content: center; align-items: center; }
+        .apple-mini { font-size: 1.5rem; }
+        .apple-yellow { filter: hue-rotate(50deg) saturate(1.5); } 
+
+        /* ====== Slide 7: Lottery Dots ====== */
+        .dot-blue { width: 0.75rem; height: 0.75rem; border-radius: 9999px; background-color: #38bdf8; transition: opacity 0.5s ease; flex-shrink: 0; }
+        .dot-yellow { width: 0.8rem; height: 0.8rem; border-radius: 9999px; background-color: #facc15; box-shadow: 0 0 10px rgba(250,204,21,0.6); flex-shrink: 0; }
+        @media (min-width: 768px) {
+            .dot-blue { width: 1.25rem; height: 1.25rem; }
+            .dot-yellow { width: 1.25rem; height: 1.25rem; box-shadow: 0 0 15px rgba(250,204,21,0.6); }
+        }
+        .lot-label-inline { font-size: 2rem; font-family: monospace; color: #f8fafc; width: 100px; text-align: right; margin-right: 1.5rem; white-space: nowrap; }
+
+        /* ====== Slide 8: Stars & Bars ====== */
+        .sb-slot { transition: all 0.3s; cursor: pointer; }
+        .sb-slot:hover { background: rgba(255, 255, 255, 0.1); }
+        .hidden-slide { display: none; }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden">
+
+    <header class="glass-panel sticky top-0 z-50 px-8 py-5 flex justify-between items-center shadow-lg">
+        <div class="text-2xl font-bold flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg"><i class="fa-solid fa-infinity text-white text-lg"></i></div>
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-slate-400 tracking-wide">Combinatorics</span>
+        </div>
+        <nav class="flex gap-6 overflow-x-auto no-scrollbar pb-2">
+            <button onclick="goToSlide(0)" id="btn-0" class="nav-btn active px-2">0. Intro</button>
+            <button onclick="goToSlide(1)" id="btn-1" class="nav-btn px-2">1. สับเปลี่ยน (n!)</button>
+            <button onclick="goToSlide(2)" id="btn-2" class="nav-btn px-2">2. โพเดียม (P)</button>
+            <button onclick="goToSlide(3)" id="btn-3" class="nav-btn px-2">3. ตู้เซฟ (ซ้ำได้)</button>
+            <button onclick="goToSlide(4)" id="btn-4" class="nav-btn px-2">4. แอปเปิล (C)</button>
+            <button onclick="goToSlide(5)" id="btn-5" class="nav-btn px-2">5. ทำไมต้องหาร?</button>
+            <button onclick="goToSlide(6)" id="btn-6" class="nav-btn px-2">6. ลอตเตอรี่ (โจทย์)</button>
+            <button onclick="goToSlide(7)" id="btn-7" class="nav-btn px-2">7. ลอตเตอรี่ (คูณ)</button>
+            <button onclick="goToSlide(8)" id="btn-8" class="nav-btn px-2">8. ไม้กั้น (S&B)</button>
+        </nav>
+    </header>
+
+    <main class="flex-grow p-4 md:p-8 overflow-y-auto flex justify-center items-start pt-8 relative">
+        <div class="w-full max-w-5xl relative h-full">
+
+            <div id="slide-0" class="slide active">
+                <div class="h-full flex flex-col w-full rounded-3xl overflow-hidden glass-panel border border-slate-700">
+                    <div class="flex-grow bg-slate-800 relative flex flex-col border-r-[15px] border-emerald-500 overflow-hidden shadow-[inset_0_0_50px_rgba(0,0,0,0.9)]">
+                        <div class="absolute right-0 top-0 bottom-0 w-8 bg-white z-0 flex flex-col">
+                            <div class="flex-1 bg-black"></div><div class="flex-1 bg-white"></div><div class="flex-1 bg-black"></div><div class="flex-1 bg-white"></div><div class="flex-1 bg-black"></div><div class="flex-1 bg-white"></div><div class="flex-1 bg-black"></div><div class="flex-1 bg-white"></div><div class="flex-1 bg-black"></div><div class="flex-1 bg-white"></div>
+                        </div>
+                        <div class="flex-1 border-b-4 border-dashed border-slate-500 relative"><div id="intro-car-1" class="intro-car car-yellow">🏎️</div></div>
+                        <div class="flex-1 border-b-4 border-dashed border-slate-500 relative"><div id="intro-car-2" class="intro-car car-red">🏎️</div></div>
+                        <div class="flex-1 border-b-4 border-dashed border-slate-500 relative"><div id="intro-car-3" class="intro-car car-purple">🏎️</div></div>
+                        <div class="flex-1 border-b-4 border-dashed border-slate-500 relative"><div id="intro-car-4" class="intro-car car-blue">🏎️</div></div>
+                        <div class="flex-1 relative"><div id="intro-car-5" class="intro-car car-black">🏎️</div></div>
+                    </div>
+                    <div class="h-64 bg-slate-900 flex flex-col justify-center items-center p-8 z-20 shadow-[0_-20px_30px_rgba(0,0,0,0.5)]">
+                        <h1 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-emerald-400 to-amber-400 mb-3 tracking-tighter drop-shadow-lg text-center">Combinatorics Adventure</h1>
+                        <p class="text-xl text-slate-300 mb-6 text-center">การเดินทางสู่โลกของความน่าจะเป็นและการจัดหมู่</p>
+                        <button onclick="startIntroRace()" id="btn-start-race" class="px-8 py-4 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-400 hover:to-blue-400 text-white font-bold text-xl rounded-full shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center gap-3">
+                            <i class="fa-solid fa-flag-checkered"></i> ปล่อยรถเข้าสู่บทเรียน!
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slide-1" class="slide">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">การเรียงสับเปลี่ยน (Permutations)</h2>
+                    <p class="text-lg md:text-xl text-slate-400">รถแข่ง 5 คัน จะจัดอันดับเข้าเส้นชัยได้กี่รูปแบบ? <span class="text-emerald-400">(ลากรถไปวาง หรือคลิกที่รถก็ได้)</span></p>
+                </div>
+                <div class="glass-panel p-6 md:p-10 rounded-3xl mb-8 relative flex flex-col justify-between min-h-[400px] overflow-x-auto">
+                    <div class="flex justify-around mb-10 min-w-[600px] relative z-20" id="car-pool-1">
+                        <div class="car-wrapper" id="wrap-1-1"><div id="car-1-1" class="car-emoji car-yellow" draggable="true" ondragstart="drag(event)" onclick="clickMove(this, 1)">🏎️</div></div>
+                        <div class="car-wrapper" id="wrap-1-2"><div id="car-1-2" class="car-emoji car-red" draggable="true" ondragstart="drag(event)" onclick="clickMove(this, 1)">🏎️</div></div>
+                        <div class="car-wrapper" id="wrap-1-3"><div id="car-1-3" class="car-emoji car-purple" draggable="true" ondragstart="drag(event)" onclick="clickMove(this, 1)">🏎️</div></div>
+                        <div class="car-wrapper" id="wrap-1-4"><div id="car-1-4" class="car-emoji car-blue" draggable="true" ondragstart="drag(event)" onclick="clickMove(this, 1)">🏎️</div></div>
+                        <div class="car-wrapper" id="wrap-1-5"><div id="car-1-5" class="car-emoji car-black" draggable="true" ondragstart="drag(event)" onclick="clickMove(this, 1)">🏎️</div></div>
+                    </div>
+                    <div class="bg-slate-900/80 p-6 md:p-8 rounded-2xl border border-slate-700 relative z-10 mt-auto min-w-[600px]">
+                        <div class="grid grid-cols-5 gap-4 md:gap-6">
+                            <div class="finish-slot h-24 md:h-32 bg-slate-800/50" data-rank="อันดับ 1" id="slot-1-1" ondrop="drop(event, 1)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"></div>
+                            <div class="finish-slot h-24 md:h-32 bg-slate-800/50" data-rank="อันดับ 2" id="slot-1-2" ondrop="drop(event, 1)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"></div>
+                            <div class="finish-slot h-24 md:h-32 bg-slate-800/50" data-rank="อันดับ 3" id="slot-1-3" ondrop="drop(event, 1)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"></div>
+                            <div class="finish-slot h-24 md:h-32 bg-slate-800/50" data-rank="อันดับ 4" id="slot-1-4" ondrop="drop(event, 1)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"></div>
+                            <div class="finish-slot h-24 md:h-32 bg-slate-800/50" data-rank="อันดับ 5" id="slot-1-5" ondrop="drop(event, 1)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-2xl text-center">
+                    <div class="text-3xl md:text-4xl font-mono font-bold text-blue-400 mb-2 transition-all" id="s1-math">\( \text{รอรถเข้าเส้นชัย...} \)</div>
+                    <button onclick="resetSlide(1)" class="mt-2 text-slate-400 hover:text-white text-sm bg-slate-800 px-4 py-1 rounded-full transition hover:bg-slate-700">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> รีเซ็ตการแข่งขัน
+                    </button>
+                </div>
+            </div>
+
+            <div id="slide-2" class="slide">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">การสับเปลี่ยนบางส่วน (Variations)</h2>
+                    <p class="text-lg md:text-xl text-slate-400">เลือกรถ 3 คัน ขึ้นรับรางวัลบนโพเดียม <span class="text-amber-400">(ลากรถไปวาง หรือคลิกที่รถก็ได้)</span></p>
+                </div>
+                <div class="flex flex-col md:flex-row gap-8 min-h-[480px]">
+                    <div class="glass-panel p-6 md:p-8 rounded-3xl flex-1 flex flex-col relative z-20 overflow-x-auto">
+                        <div class="flex justify-around mb-12 min-w-[500px]" id="car-pool-2">
+                            <div class="car-wrapper" id="wrap-2-1"><div id="car-2-1" class="car-emoji car-yellow" draggable="true" ondragstart="drag(event)" onclick="clickMove(this, 2)">🏎️</div></div>
+                            <div class="car-wrapper" id="wrap-2-2"><div id="car-2-2" class="car-emoji car-red" draggable="true" ondragstart="drag(event)" onclick="clickMove(this, 2)">🏎️</div></div>
+                            <div class="car-wrapper" id="wrap-2-3"><div id="car-2-3" class="car-emoji car-purple" draggable="true" ondragstart="drag(event)" onclick="clickMove(this, 2)">🏎️</div></div>
+                            <div class="car-wrapper" id="wrap-2-4"><div id="car-2-4" class="car-emoji car-blue" draggable="true" ondragstart="drag(event)" onclick="clickMove(this, 2)">🏎️</div></div>
+                            <div class="car-wrapper" id="wrap-2-5"><div id="car-2-5" class="car-emoji car-black" draggable="true" ondragstart="drag(event)" onclick="clickMove(this, 2)">🏎️</div></div>
+                        </div>
+                        <div class="mt-auto flex items-end justify-center gap-4 pb-4 min-w-[400px]">
+                            <div class="flex flex-col items-center">
+                                <div class="finish-slot w-24 h-24 mb-4 bg-slate-800/50" id="slot-2-2" ondrop="drop(event, 2)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"></div>
+                                <div class="w-28 h-32 bg-gradient-to-b from-slate-400 to-slate-600 rounded-t-xl flex flex-col items-center pt-2 shadow-2xl"><span class="text-4xl mb-1">🥈</span><span class="text-slate-900 font-bold text-2xl">2nd</span></div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="finish-slot w-24 h-24 mb-4 bg-slate-800/50" id="slot-2-1" ondrop="drop(event, 2)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"></div>
+                                <div class="w-32 h-48 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-t-xl flex flex-col items-center pt-2 shadow-2xl"><span class="text-5xl mb-1">🥇</span><span class="text-yellow-950 font-bold text-3xl">1st</span></div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="finish-slot w-24 h-24 mb-4 bg-slate-800/50" id="slot-2-3" ondrop="drop(event, 2)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"></div>
+                                <div class="w-28 h-20 bg-gradient-to-b from-orange-500 to-orange-800 rounded-t-xl flex flex-col items-center pt-2 shadow-2xl"><span class="text-3xl mb-1">🥉</span><span class="text-orange-950 font-bold text-2xl">3rd</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-panel p-6 md:p-8 rounded-3xl flex-1 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold text-amber-400 mb-4 text-center">หลักการตัดตัวเลือก (Cancellation)</h3>
+                        <div class="bg-slate-900/80 p-6 rounded-2xl border border-slate-700 min-h-[250px] flex flex-col justify-center text-center overflow-x-auto">
+                            <div id="s2-math-step" class="text-2xl md:text-3xl font-mono text-white transition-opacity duration-500 mb-6">\( \text{คลิกหรือลากรถ...} \)</div>
+                            <div id="s2-math-formula" class="opacity-0 transition-opacity duration-700 border-t border-slate-700 pt-6">
+                                <p class="text-slate-300 text-sm mb-4">มีรถ 5 คัน แต่รับรางวัล 3 อันดับ<br>รถที่เหลืออีก 2 คันสลับที่กันเองได้ \( 2! \) <span class="text-amber-400">(ต้องหารทิ้ง)</span></p>
+                                <div class="text-2xl md:text-3xl font-mono text-white mb-2">\( \frac{5 \times 4 \times 3 \times \color{red}{2 \times 1}}{\color{red}{2 \times 1}} = 60 \)</div>
+                                <div class="text-xs text-slate-500">สูตรทั่วไป: \( P(n,r) = \frac{n!}{(n-r)!} \)</div>
+                            </div>
+                        </div>
+                        <button onclick="resetSlide(2)" class="mt-6 mx-auto px-6 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-full transition"><i class="fa-solid fa-rotate-right"></i> เริ่มใหม่</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slide-3" class="slide">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">การสลับที่แบบซ้ำได้ (Repetition)</h2>
+                    <p class="text-lg md:text-xl text-slate-400">รหัสตู้เซฟ 4 หลัก แต่ละหลักใช้เลข 0-9 ได้ตลอดเวลา</p>
+                </div>
+                <div class="flex flex-col md:flex-row gap-10 items-center justify-center">
+                    <div class="glass-panel p-10 rounded-3xl flex flex-col items-center shadow-2xl relative">
+                        <div class="flex gap-4 mb-8 relative z-10 flex-wrap justify-center">
+                            <div class="flex flex-col items-center gap-3"><div class="safe-window"><div class="safe-strip" id="strip-1"></div></div><div id="opt-1" class="opacity-0 transition-opacity duration-500 text-emerald-400 font-bold bg-emerald-900/40 px-3 py-1 rounded border border-emerald-500/50 text-sm">10 วิธี</div></div>
+                            <div class="flex flex-col items-center gap-3"><div class="safe-window"><div class="safe-strip" id="strip-2"></div></div><div id="opt-2" class="opacity-0 transition-opacity duration-500 text-emerald-400 font-bold bg-emerald-900/40 px-3 py-1 rounded border border-emerald-500/50 text-sm">10 วิธี</div></div>
+                            <div class="flex flex-col items-center gap-3"><div class="safe-window"><div class="safe-strip" id="strip-3"></div></div><div id="opt-3" class="opacity-0 transition-opacity duration-500 text-emerald-400 font-bold bg-emerald-900/40 px-3 py-1 rounded border border-emerald-500/50 text-sm">10 วิธี</div></div>
+                            <div class="flex flex-col items-center gap-3"><div class="safe-window"><div class="safe-strip" id="strip-4"></div></div><div id="opt-4" class="opacity-0 transition-opacity duration-500 text-emerald-400 font-bold bg-emerald-900/40 px-3 py-1 rounded border border-emerald-500/50 text-sm">10 วิธี</div></div>
+                        </div>
+                        <button onclick="analyzeSafeStep()" id="btn-safe-step" class="relative z-10 px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
+                            <i class="fa-solid fa-fingerprint"></i> วิเคราะห์รหัสทีละหลัก
+                        </button>
+                    </div>
+                    <div class="flex flex-col gap-6 w-full max-w-md">
+                        <div class="bg-slate-800/80 p-8 rounded-3xl border-l-4 border-red-500 shadow-xl">
+                            <h4 class="text-red-400 font-bold mb-4">ความเป็นไปได้ทั้งหมด:</h4>
+                            <p class="text-slate-300 text-sm mb-6">รหัสแต่ละหลักสามารถเลือกเลขได้ตั้งแต่ <b>0 ถึง 9</b> รวมทั้งหมด 10 ตัวเลือก และ <span class="text-white font-bold underline">สามารถใช้ตัวเลขซ้ำได้</span></p>
+                            <div class="text-3xl font-mono font-bold text-white bg-slate-900 p-6 rounded-2xl text-center border border-slate-700 min-h-[100px] flex items-center justify-center overflow-x-auto" id="s3-math">\( \text{รอการวิเคราะห์...} \)</div>
+                        </div>
+                        <button onclick="initSafe()" class="text-slate-400 hover:text-white underline text-sm text-center">รีเซ็ตตู้เซฟ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slide-4" class="slide">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">การจัดหมู่ (Combinations)</h2>
+                    <p class="text-lg md:text-xl text-emerald-400">เลือกซื้อผลไม้ 3 ลูก จากตลาดที่มีผลไม้ 10 ชนิด <span class="text-slate-400 text-sm">(คลิกเพื่อหยิบใส่ตะกร้า)</span></p>
+                </div>
+                
+                <div class="glass-panel p-6 md:p-10 rounded-3xl flex flex-col items-center justify-center gap-12 overflow-x-auto min-h-[500px]">
+                    
+                    <div class="flex flex-wrap items-center justify-center gap-10 w-full min-w-[700px]">
+                        <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-700 relative w-[320px]">
+                            <div class="text-slate-400 text-sm font-bold mb-4 text-center">ตะกร้าผลไม้ 10 ลูก</div>
+                            <div class="flex flex-wrap gap-2 justify-center" id="apple-pool">
+                                <div id="ap-1" onclick="pickApple(1, '🍎')" class="cursor-pointer hover:scale-110 transition-transform text-4xl apple-item">🍎</div>
+                                <div id="ap-2" onclick="pickApple(2, '🍏')" class="cursor-pointer hover:scale-110 transition-transform text-4xl apple-item">🍏</div>
+                                <div id="ap-3" onclick="pickApple(3, '🍊')" class="cursor-pointer hover:scale-110 transition-transform text-4xl apple-item">🍊</div>
+                                <div id="ap-4" onclick="pickApple(4, '🍏')" class="cursor-pointer hover:scale-110 transition-transform text-4xl apple-item">🍏</div>
+                                <div id="ap-5" onclick="pickApple(5, '🍎')" class="cursor-pointer hover:scale-110 transition-transform text-4xl apple-item">🍎</div>
+                                <div id="ap-6" onclick="pickApple(6, '🍏')" class="cursor-pointer hover:scale-110 transition-transform text-4xl apple-item">🍏</div>
+                                <div id="ap-7" onclick="pickApple(7, '🍊')" class="cursor-pointer hover:scale-110 transition-transform text-4xl apple-item">🍊</div>
+                                <div id="ap-8" onclick="pickApple(8, '🍏')" class="cursor-pointer hover:scale-110 transition-transform text-4xl apple-item">🍏</div>
+                                <div id="ap-9" onclick="pickApple(9, '🍎')" class="cursor-pointer hover:scale-110 transition-transform text-4xl apple-item">🍎</div>
+                                <div id="ap-10" onclick="pickApple(10, '🍏')" class="cursor-pointer hover:scale-110 transition-transform text-4xl apple-item">🍏</div>
+                            </div>
+                        </div>
+                        <div class="text-6xl md:text-7xl font-serif text-white font-bold">10</div>
+                        <div class="text-6xl md:text-7xl font-mono text-white opacity-0 transition-opacity" id="s4-n-k">\( \binom{10}{3} \)</div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center justify-between w-full min-w-[700px] gap-8">
+                        <div class="flex items-end gap-4">
+                            <div class="flex flex-col items-center gap-4">
+                                <div class="w-28 h-28 border-4 border-white rounded-[24px] flex items-center justify-center text-6xl bg-slate-900/50" id="basket-1"></div>
+                                <div class="text-white text-3xl font-mono font-bold" id="k-label-1">&nbsp;</div>
+                            </div>
+                            <div class="text-white text-3xl font-bold pb-2" id="k-dot-1">&nbsp;</div>
+                            <div class="flex flex-col items-center gap-4">
+                                <div class="w-28 h-28 border-4 border-white rounded-[24px] flex items-center justify-center text-6xl bg-slate-900/50" id="basket-2"></div>
+                                <div class="text-white text-3xl font-mono font-bold" id="k-label-2">&nbsp;</div>
+                            </div>
+                            <div class="text-white text-3xl font-bold pb-2" id="k-dot-2">&nbsp;</div>
+                            <div class="flex flex-col items-center gap-4">
+                                <div class="w-28 h-28 border-4 border-white rounded-[24px] flex items-center justify-center text-6xl bg-slate-900/50" id="basket-3"></div>
+                                <div class="text-white text-3xl font-mono font-bold" id="k-label-3">&nbsp;</div>
+                            </div>
+                        </div>
+
+                        <div class="flex-1 flex flex-col justify-center gap-4 w-full md:w-auto">
+                            <div class="bg-slate-900/80 p-6 rounded-2xl border-l-4 border-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.1)]">
+                                <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider mb-4">สูตรการจัดหมู่ (Combination)</h3>
+                                <div class="text-2xl font-mono text-white mb-2 overflow-x-auto pb-2">
+                                    \( C(n,k) = \binom{n}{k} = \frac{n!}{(n-k)! \cdot k!} \)
+                                </div>
+                                <p class="text-slate-400 text-sm">ใช้เมื่อ <span class="text-white font-bold">ลำดับไม่มีความสำคัญ</span></p>
+                            </div>
+                            
+                            <div class="bg-slate-900/80 p-6 rounded-2xl border-l-4 border-blue-500 opacity-0 transition-opacity duration-500" id="step4-result">
+                                <h3 class="text-sm font-bold text-blue-400 uppercase tracking-wider mb-2">แทนค่าสมการ:</h3>
+                                <div class="text-2xl md:text-3xl font-mono text-white overflow-x-auto pb-2" id="math-apple-comb">
+                                    \( \dots \)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 flex flex-wrap justify-center gap-4">
+                        <button onclick="initApples()" class="text-slate-400 hover:text-white text-sm bg-slate-800 px-6 py-2 rounded-full transition border border-slate-600">
+                            <i class="fa-solid fa-rotate-right mr-1"></i> เทตะกร้าเริ่มใหม่
+                        </button>
+                        <button onclick="goToSlide(5)" class="text-white text-sm bg-amber-600 hover:bg-amber-500 px-6 py-2 rounded-full transition font-bold flex items-center gap-2 shadow-[0_0_15px_rgba(217,119,6,0.5)]">
+                            ดูที่มาของสูตร (ทำไมต้องหาร?) <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slide-5" class="slide">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">ทำไมต้องหารทิ้ง?</h2>
+                    <p class="text-lg md:text-xl text-slate-400">เปรียบเทียบ "ลำดับสำคัญ" VS "ลำดับไม่สำคัญ" (เลือกผลไม้ชุด 🍎🍏🍊)</p>
+                </div>
+                <div class="flex flex-col md:flex-row gap-8 items-stretch">
+                    <div class="glass-panel p-8 rounded-3xl flex-1 flex flex-col items-center border border-slate-700 shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 left-0 right-0 h-2 bg-red-500"></div>
+                        <h3 class="text-2xl font-bold text-red-400 mb-2 mt-2">ถ้าลำดับสำคัญ</h3>
+                        <p class="text-slate-400 text-sm mb-6">(การเรียงสับเปลี่ยน - Permutation)</p>
+                        <div class="w-full bg-slate-900/80 p-6 rounded-2xl border border-slate-700 mb-6 flex flex-col gap-3">
+                            <p class="text-center text-slate-300 mb-2">ผลไม้ชุดเดียวกัน สร้างลำดับที่ต่างกันได้:</p>
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-3">
+                                <div class="perm-box"><span class="apple-mini">🍎</span><span class="apple-mini">🍏</span><span class="apple-mini">🍊</span></div>
+                                <div class="perm-box"><span class="apple-mini">🍎</span><span class="apple-mini">🍊</span><span class="apple-mini">🍏</span></div>
+                                <div class="perm-box"><span class="apple-mini">🍏</span><span class="apple-mini">🍎</span><span class="apple-mini">🍊</span></div>
+                                <div class="perm-box"><span class="apple-mini">🍏</span><span class="apple-mini">🍊</span><span class="apple-mini">🍎</span></div>
+                                <div class="perm-box"><span class="apple-mini">🍊</span><span class="apple-mini">🍎</span><span class="apple-mini">🍏</span></div>
+                                <div class="perm-box"><span class="apple-mini">🍊</span><span class="apple-mini">🍏</span><span class="apple-mini">🍎</span></div>
+                            </div>
+                        </div>
+                        <div class="mt-auto text-center w-full">
+                            <p class="text-slate-400 mb-2">สูตร P นับได้</p>
+                            <div class="text-4xl font-mono font-bold text-white bg-red-950/50 p-4 rounded-xl border border-red-500/50">\( 3! = 6 \) วิธี</div>
+                        </div>
+                    </div>
+                    <div class="glass-panel p-8 rounded-3xl flex-1 flex flex-col items-center border border-emerald-500 shadow-[0_0_50px_rgba(16,185,129,0.2)] relative">
+                        <div class="absolute top-0 left-0 right-0 h-2 bg-emerald-500"></div>
+                        <h3 class="text-2xl font-bold text-emerald-400 mb-2 mt-2">ถ้าลำดับไม่สำคัญ</h3>
+                        <p class="text-slate-400 text-sm mb-6">(การจัดหมู่ - Combination)</p>
+                        <div class="w-full bg-slate-900/80 p-8 rounded-2xl border-2 border-dashed border-emerald-500 mb-6 flex-grow flex flex-col justify-center items-center gap-4">
+                            <p class="text-center text-slate-300">ทั้ง 6 ลำดับด้านซ้าย<br>ถือว่าเป็น <span class="text-emerald-400 font-bold">"ชุดเดียวกัน"</span></p>
+                            <div class="flex gap-3 bg-emerald-950/80 p-6 rounded-3xl border border-emerald-500 shadow-inner">
+                                <span class="text-5xl">🍎</span><span class="text-5xl">🍏</span><span class="text-5xl">🍊</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto text-center w-full flex flex-col items-center gap-4">
+                            <div class="flex items-center gap-4">
+                                <div class="text-6xl font-mono text-white">\( \binom{10}{3} \)</div>
+                                <div class="text-5xl">🍎🍏🍊</div>
+                            </div>
+                            <div class="w-full text-center">
+                                <p class="text-slate-400 mb-2">สูตร C นับรวบยอดเป็น</p>
+                                <div class="text-4xl font-mono font-bold text-white bg-emerald-900/50 p-4 rounded-xl border border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]">\( 1 \) วิธี</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 glass-panel p-6 rounded-2xl flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 border border-slate-700">
+                    <div class="text-slate-300 text-center md:text-left">
+                        <span class="font-bold text-lg text-white">สรุปหลักการ:</span><br>
+                        เพื่อเปลี่ยน P เป็น C เราต้องนำจำนวนวิธีแบบ P<br>มา <span class="text-amber-400 font-bold">"หารออก"</span> ด้วยจำนวนวิธีที่มันสลับที่กันเองได้ภายในชุด
+                    </div>
+                    <div class="text-3xl md:text-4xl font-mono font-bold text-white bg-slate-900 px-6 py-4 md:px-8 md:py-5 rounded-xl border border-slate-700 shadow-inner overflow-x-auto">
+                        \( \binom{10}{3} = \frac{10!}{7! \cdot 3!} = \frac{10 \cdot 9 \cdot 8}{3 \cdot 2 \cdot 1} = 120 \)
+                    </div>
+                </div>
+                <div class="mt-6 text-center">
+                    <button onclick="goToSlide(4)" class="text-white text-sm bg-slate-800 hover:bg-slate-700 px-6 py-2 rounded-full transition flex items-center gap-2 mx-auto">
+                        <i class="fa-solid fa-arrow-left"></i> กลับไปหน้าจัดหมู่
+                    </button>
+                </div>
+            </div>
+
+            <div id="slide-6" class="slide">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">กฎการคูณ (Rule of Product)</h2>
+                    <p class="text-lg md:text-xl text-slate-400">ตั๋วลอตเตอรี่ยุโรป: ต้องทายถูกทั้งโซน A <span class="text-purple-400 font-bold">"และ"</span> โซน B</p>
+                </div>
+                <div class="glass-panel p-8 rounded-3xl mb-8 flex flex-col items-center">
+                    <div class="w-full bg-slate-900/80 border border-slate-600 rounded-2xl p-6 text-center mb-8">
+                        <h3 class="text-lg font-bold text-amber-400 mb-3">วิเคราะห์เงื่อนไขการออกรางวัล:</h3>
+                        <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 text-slate-300">
+                            <div class="flex items-center justify-center gap-2"><i class="fa-solid fa-ban text-red-400"></i> สุ่มลูกบอล <b>ไม่ใส่คืน</b></div>
+                            <div class="flex items-center justify-center gap-2"><i class="fa-solid fa-random text-emerald-400"></i> ลำดับ <b>ไม่มีผล</b></div>
+                            <div class="flex items-center justify-center gap-2 font-bold text-white"><i class="fa-solid fa-arrow-right text-blue-400"></i> ใช้จัดหมู่ \( C(n,r) \)</div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center items-center gap-8 mb-8 w-full max-w-4xl relative">
+                        <div class="flex-1 min-w-[250px] bg-slate-900 p-8 rounded-3xl border-t-4 border-blue-500 text-center shadow-2xl transition-all duration-500 opacity-30 transform scale-95" id="lot-zone-a">
+                            <h3 class="text-2xl font-bold text-blue-400 mb-2">โซน A</h3>
+                            <p class="text-slate-400 mb-6 text-sm">ทายถูก 5 จาก 50 ตัวเลข</p>
+                            <div class="text-4xl font-mono text-white bg-slate-800 py-6 rounded-2xl shadow-inner">\( \binom{50}{5} \)</div>
+                        </div>
+                        <div class="text-center transition-all duration-500 opacity-0 w-full md:w-auto" id="lot-operator">
+                            <p class="text-slate-400 font-bold mb-2">คำว่า <span class="text-white">"และ"</span></p>
+                            <div class="text-7xl text-purple-500 font-bold bg-purple-900/30 w-24 h-24 rounded-full flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(168,85,247,0.4)]">×</div>
+                        </div>
+                        <div class="flex-1 min-w-[250px] bg-slate-900 p-8 rounded-3xl border-t-4 border-emerald-500 text-center shadow-2xl transition-all duration-500 opacity-30 transform scale-95" id="lot-zone-b">
+                            <h3 class="text-2xl font-bold text-emerald-400 mb-2">โซน B</h3>
+                            <p class="text-slate-400 mb-6 text-sm">ทายถูก 2 จาก 12 ตัวเลข</p>
+                            <div class="text-4xl font-mono text-white bg-slate-800 py-6 rounded-2xl shadow-inner">\( \binom{12}{2} \)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full flex flex-col items-center min-h-[100px]">
+                        <button onclick="nextLotteryStep6()" id="btn-lottery6" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xl rounded-2xl shadow-lg transition-all hover:scale-105">
+                            วิเคราะห์การจับรางวัล โซน A
+                        </button>
+                        <div class="bg-purple-900/30 border border-purple-500/50 px-6 md:px-12 py-6 rounded-2xl text-center hidden w-full max-w-3xl" id="lottery-ans6">
+                            <p class="text-slate-300 text-lg mb-2">จำนวนวิธีการออกรางวัลทั้งหมด:</p>
+                            <div class="text-4xl md:text-6xl font-mono font-bold text-white tracking-tight drop-shadow-md">
+                                139,838,160
+                            </div>
+                            <button onclick="goToSlide(7)" class="mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-sm transition">ดูการสุ่มแบบเห็นภาพ <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slide-7" class="slide">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">เจาะลึกที่มา 139ล้าน รูปแบบ</h2>
+                    <p class="text-lg md:text-xl text-slate-400">การคูณกันของสองเหตุการณ์ที่เกิดขึ้น <span class="text-purple-400 font-bold">"พร้อมกัน"</span></p>
+                </div>
+                
+                <div class="glass-panel p-6 md:p-10 rounded-3xl mb-8 flex flex-col items-center overflow-x-auto">
+                    <div class="w-full flex flex-col gap-10 mt-4 items-center min-w-[700px] max-w-[850px]">
+                        
+                        <div class="flex flex-row items-center justify-center gap-3 md:gap-6 w-full" id="lot7-zone-a">
+                            <div class="text-xl md:text-3xl font-mono text-white text-right whitespace-nowrap w-16 md:w-24 flex-shrink-0">1 - 50</div>
+                            <div class="grid grid-cols-10 gap-1 md:gap-2 flex-shrink-0" id="grid7-a"></div>
+                            <div class="text-2xl md:text-4xl font-serif text-white text-left w-8 md:w-10 flex-shrink-0">A</div>
+                        </div>
+
+                        <div class="flex flex-row items-center justify-center gap-3 md:gap-6 w-full mt-4" id="lot7-zone-b">
+                            <div class="text-xl md:text-3xl font-mono text-white text-right whitespace-nowrap w-16 md:w-24 flex-shrink-0">1 - 12</div>
+                            <div class="flex gap-1 md:gap-2 flex-shrink-0" id="grid7-b"></div>
+                            <div class="text-2xl md:text-4xl font-serif text-white text-left w-8 md:w-10 flex-shrink-0">B</div>
+                        </div>
+
+                        <div class="flex items-center justify-center gap-8 mt-12 w-full opacity-0 transition-opacity duration-500" id="lot7-math-row">
+                            <div class="flex flex-col items-center">
+                                <div class="flex gap-3">
+                                    <div class="dot-yellow"></div><div class="dot-yellow"></div><div class="dot-yellow"></div><div class="dot-yellow"></div><div class="dot-yellow"></div>
+                                </div>
+                                <div class="text-5xl font-mono text-white mt-4">\( \binom{50}{5} \)</div>
+                            </div>
+                            <div class="text-5xl text-white font-bold pb-10">.</div> 
+                            <div class="flex flex-col items-center">
+                                <div class="flex gap-3">
+                                    <div class="dot-yellow"></div><div class="dot-yellow"></div>
+                                </div>
+                                <div class="text-5xl font-mono text-white mt-4">\( \binom{12}{2} \)</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 text-center opacity-0 transition-opacity duration-500" id="lot7-result">
+                            <div class="text-6xl font-mono font-bold text-white tracking-tight">
+                                = 139,838,160
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="animateLottery7()" id="btn-lot7" class="mt-12 px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-full shadow-lg transition-all hover:scale-105 text-lg z-20">
+                        แสดงการสุ่มรางวัล
+                    </button>
+                </div>
+            </div>
+
+            <div id="slide-8" class="slide">
+                <div class="text-center mb-10"><h2 class="text-3xl md:text-4xl font-bold text-white mb-3">จัดหมู่แบบซ้ำได้ (Stars and Bars)</h2><p class="text-lg md:text-xl text-slate-400">ซื้อผลไม้ 6 ลูก มีให้เลือก 2 ชนิด (ใช้ "ไม้กั้น" 1 อันในการแบ่งกลุ่ม)</p></div>
+                
+                <div class="glass-panel p-8 md:p-12 rounded-3xl mb-8 flex flex-col items-center">
+                    <p class="text-slate-300 mb-10 bg-slate-800 py-2 px-6 rounded-full border border-slate-700">คลิกที่ช่องว่างด้านล่างเพื่อวาง <b>ไม้กั้น (Divider)</b></p>
+                    <div class="flex gap-2 md:gap-4 mb-8 h-20 items-center justify-center bg-slate-900 p-4 md:p-6 rounded-2xl border border-slate-700 w-full max-w-2xl overflow-x-auto" id="sb-row"></div>
+                    <div class="text-xl text-slate-300 mb-8" id="sb-current-way">นี่คือรูปแบบที่ 1 จากทั้งหมด 7 วิธี</div>
+                    <div class="text-2xl md:text-3xl font-bold flex items-center gap-6 bg-slate-800/50 p-6 rounded-2xl border border-slate-700 min-w-[250px] justify-center" id="sb-status"><span class="text-red-400">🍎 ?</span> <span class="text-slate-600">|</span> <span class="text-yellow-400">🍍 ?</span></div>
+                </div>
+
+                <div class="bg-orange-900/20 border border-orange-500/30 p-6 rounded-2xl text-center relative">
+                    <p class="text-slate-400 mb-2 text-sm">รูปแบบที่เป็นไปได้ทั้งหมด:</p>
+                    <div class="text-3xl font-mono font-bold text-orange-400 mb-2" id="sb-formula-dynamic">\( \binom{6+2-1}{2-1} = \binom{7}{1} = 7 \) วิธี</div>
+                    
+                    <button onclick="toggleSbBehindScenes()" class="mt-4 text-white text-sm bg-orange-700 hover:bg-orange-600 px-6 py-2 rounded-full transition font-bold flex items-center gap-2 mx-auto shadow-lg">
+                        <i class="fa-solid fa-lightbulb"></i> ดูสูตรทั่วไป (General Formula)
+                    </button>
+                </div>
+
+                <div id="slide-8-hidden" class="hidden-slide mt-8 glass-panel p-6 md:p-10 rounded-3xl border border-orange-500 flex-col items-center justify-center w-full">
+                    <h3 class="text-2xl md:text-3xl font-bold text-orange-400 mb-6 text-center">Stars and Bars: รูปทั่วไป</h3>
+                    <div class="bg-slate-900/80 p-6 md:p-8 rounded-2xl border border-slate-700 flex flex-col items-center gap-6 w-full overflow-x-auto">
+                        <p class="text-slate-300 text-center md:text-lg">การจัดหมู่แบบซ้ำได้ คือการเลือกของ \( k \) ชิ้น จากตัวเลือก \( n \) ชนิด <br><span class="text-sm">(โดยใช้ไม้กั้น \( n-1 \) อัน ในการแบ่งชนิด)</span></p>
+                        
+                        <div class="flex items-center justify-center gap-4 md:gap-6 p-4 md:p-6 bg-slate-800 rounded-xl border border-slate-700 w-max min-w-full">
+                            <div class="flex flex-col items-center gap-2">
+                                <div class="flex gap-2">
+                                    <div class="w-12 h-12 md:w-16 md:h-16 border-2 border-white rounded-xl"></div>
+                                    <div class="w-12 h-12 md:w-16 md:h-16 border-2 border-white rounded-xl"></div>
+                                    <div class="w-12 h-12 md:w-16 md:h-16 border-2 border-white rounded-xl"></div>
+                                </div>
+                                <div class="text-white font-mono text-lg md:text-xl mt-2">\( k \) ของ</div>
+                            </div>
+                            <div class="text-3xl md:text-4xl text-white font-serif">\( \dots \)</div>
+                            <div class="flex gap-2 md:gap-4">
+                                <div class="w-2 h-12 md:h-16 bg-orange-500 rounded-full"></div>
+                                <div class="w-2 h-12 md:h-16 bg-orange-500 rounded-full"></div>
+                            </div>
+                            <div class="text-3xl md:text-4xl text-white font-serif">\( \dots \)</div>
+                            <div class="text-white font-mono text-lg md:text-xl text-center">\( n-1 \)<br>กั้น</div>
+                        </div>
+                        
+                        <div class="text-2xl md:text-4xl lg:text-5xl font-mono font-bold text-white bg-slate-950 px-6 py-4 md:px-10 md:py-6 rounded-xl border-2 border-dashed border-orange-500 mt-4 whitespace-nowrap">
+                            \( \binom{n+k-1}{k-1} \)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <script>
+        function goToSlide(n) {
+            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('slide-' + n).classList.add('active');
+            document.getElementById('btn-' + n).classList.add('active');
+            
+            if(n === 3) initSafe();
+            if(n === 4) initApples();
+            if(n === 6) initLottery6();
+            if(n === 7) initLottery7();
+            if(n === 8) initStarsAndBars();
+            MathJax.typesetPromise();
+        }
+
+        // ==========================================
+        // SLIDE 4: APPLES 
+        // ==========================================
+        let appleStep = 0;
+        function initApples() {
+            appleStep = 0;
+            for(let i=1; i<=10; i++) {
+                let ap = document.getElementById('ap-'+i);
+                if(ap) { ap.classList.remove('pointer-events-none'); ap.style.opacity = '1'; }
+            }
+            for(let i=1; i<=3; i++) {
+                let b = document.getElementById('basket-'+i);
+                if(b) b.innerHTML = '';
+            }
+            document.getElementById('s4-n-k').classList.add('opacity-0');
+            document.getElementById('s4-formula').classList.add('opacity-0');
+            document.getElementById('step4-result').classList.add('opacity-0');
+            
+            document.getElementById('k-label-1').innerHTML = '&nbsp;';
+            document.getElementById('k-dot-1').innerHTML = '&nbsp;';
+            document.getElementById('k-label-2').innerHTML = '&nbsp;';
+            document.getElementById('k-dot-2').innerHTML = '&nbsp;';
+            document.getElementById('k-label-3').innerHTML = '&nbsp;';
+        }
+
+        function pickApple(id, emoji) {
+            if(appleStep >= 3) return;
+            let ap = document.getElementById('ap-'+id);
+            if(ap.classList.contains('pointer-events-none')) return;
+            
+            appleStep++;
+            ap.classList.add('pointer-events-none');
+            ap.style.opacity = '0'; 
+
+            let b = document.getElementById('basket-'+appleStep);
+            b.innerHTML = `<span class="filter drop-shadow-md text-6xl">${emoji}</span>`;
+            
+            if (appleStep === 1) {
+                document.getElementById('k-label-1').innerText = '10';
+            } else if (appleStep === 2) {
+                document.getElementById('k-dot-1').innerText = '·';
+                document.getElementById('k-label-2').innerText = '9';
+            } else if (appleStep === 3) {
+                document.getElementById('k-dot-2').innerText = '·';
+                document.getElementById('k-label-3').innerText = '8';
+                
+                setTimeout(() => { document.getElementById('s4-n-k').classList.remove('opacity-0'); }, 500);
+                setTimeout(() => { document.getElementById('s4-formula').classList.remove('opacity-0'); }, 1500);
+                
+                setTimeout(() => { 
+                    const res = document.getElementById('step4-result');
+                    res.classList.remove('opacity-0');
+                    document.getElementById('math-apple-comb').innerHTML = `\\( \\binom{10}{3} = \\frac{10!}{7! \\cdot 3!} = 120 \\text{ วิธี} \\)`;
+                    MathJax.typesetPromise([document.getElementById('math-apple-comb')]);
+                }, 2000);
+            }
+        }
+
+        // ==========================================
+        // SLIDE 7: LOTTERY DOT ANIMATION
+        // ==========================================
+        let lot7Step = 0;
+        function initLottery7() {
+            lot7Step = 0;
+            const ga = document.getElementById('grid7-a'); ga.innerHTML = '';
+            for(let i=0; i<50; i++) ga.innerHTML += `<div class="dot-blue" id="dot7-a-${i}"></div>`;
+            const gb = document.getElementById('grid7-b'); gb.innerHTML = '';
+            for(let i=0; i<12; i++) gb.innerHTML += `<div class="dot-blue" id="dot7-b-${i}"></div>`;
+            
+            document.getElementById('lot7-math-row').classList.replace('opacity-100', 'opacity-0');
+            document.getElementById('lot7-result').classList.replace('opacity-100', 'opacity-0');
+            const btn = document.getElementById('btn-lot7'); btn.innerText = 'สุ่มหยิบลูกบอล'; btn.classList.remove('hidden');
+        }
+
+        function animateLottery7() {
+            lot7Step++; const btn = document.getElementById('btn-lot7');
+            if (lot7Step === 1) {
+                [3, 14, 25, 33, 48].forEach(i => { let d = document.getElementById(`dot7-a-${i}`); if(d) d.style.opacity = '0'; });
+                [3, 9].forEach(i => { let d = document.getElementById(`dot7-b-${i}`); if(d) d.style.opacity = '0'; });
+                document.getElementById('lot7-math-row').classList.replace('opacity-0', 'opacity-100');
+                btn.innerText = 'คำนวณผลลัพธ์ทั้งหมด';
+            } else if (lot7Step === 2) {
+                document.getElementById('lot7-result').classList.replace('opacity-0', 'opacity-100');
+                btn.classList.add('hidden');
+            }
+        }
+
+        // ==========================================
+        // SLIDE 8: STARS AND BARS 
+        // ==========================================
+        function initStarsAndBars() { 
+            const r = document.getElementById('sb-row'); 
+            r.innerHTML = ''; 
+            for(let i=0; i<7; i++) { 
+                const s = document.createElement('div'); 
+                s.className = 'sb-slot w-10 md:w-14 h-10 md:h-14 border-2 border-dashed border-slate-600 rounded-xl flex items-center justify-center text-xl md:text-2xl text-slate-500'; 
+                s.innerHTML = '<i class="fa-regular fa-star"></i>'; 
+                s.onclick = () => placeDivider(i); 
+                r.appendChild(s); 
+            } 
+            document.getElementById('sb-status').innerHTML = `<span class="text-red-400">🍎 ?</span> <span class="text-slate-600">|</span> <span class="text-yellow-400">🍍 ?</span>`; 
+            document.getElementById('sb-current-way').innerText = `นี่คือรูปแบบที่ 1 จากทั้งหมด 7 วิธี`;
+            document.getElementById('slide-8-hidden').style.display = 'none';
+            document.getElementById('sb-formula-dynamic').innerHTML = `\\( \\binom{6+2-1}{2-1} = \\binom{7}{1} = 7 \\) วิธี`;
+            MathJax.typesetPromise();
+        }
+
+        function placeDivider(pos) { 
+            const r = document.getElementById('sb-row'); 
+            const numApples = pos;
+            const numPineapples = 6 - pos;
+
+            for(let i=0; i<7; i++) { 
+                const s = r.children[i]; 
+                if(i === pos) { 
+                    s.innerHTML = '<div class="w-2 md:w-3 h-10 md:h-12 bg-orange-500 rounded-full shadow-[0_0_15px_rgba(249,115,22,0.8)]"></div>'; 
+                    s.className = 'w-10 md:w-14 h-10 md:h-14 flex items-center justify-center'; 
+                } else { 
+                    s.innerHTML = i < pos ? '🍎' : '🍍'; 
+                    s.className = 'w-10 md:w-14 h-10 md:h-14 flex items-center justify-center text-3xl md:text-4xl transform transition-transform hover:scale-110'; 
+                } 
+            } 
+            document.getElementById('sb-status').innerHTML = `<span class="text-red-400">🍎 ${numApples}</span> <span class="text-slate-600">|</span> <span class="text-yellow-400">🍍 ${numPineapples}</span>`; 
+            
+            document.getElementById('sb-current-way').innerText = `นี่คือรูปแบบที่ ${pos + 1} จากทั้งหมด 7 วิธี`;
+            document.getElementById('sb-formula-dynamic').innerHTML = `\\( \\binom{${numApples}+2-1}{2-1} = \\binom{${numApples+1}}{1} = ${numApples+1} \\) วิธี`;
+            MathJax.typesetPromise([document.getElementById('sb-formula-dynamic')]);
+        }
+
+        function toggleSbBehindScenes() {
+            const hiddenSlide = document.getElementById('slide-8-hidden');
+            if(hiddenSlide.style.display === 'flex') {
+                hiddenSlide.style.display = 'none';
+            } else {
+                hiddenSlide.style.display = 'flex';
+                MathJax.typesetPromise([hiddenSlide]); 
+            }
+        }
+
+        // ==========================================
+        // PREVIOUS SCRIPTS (Unchanged, functioning)
+        // ==========================================
+        function startIntroRace() { const btn = document.getElementById('btn-start-race'); btn.classList.add('opacity-50', 'pointer-events-none'); btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังวิ่ง...'; const speeds = [4, 5, 6, 7, 8]; for(let i=1; i<=5; i++) { const car = document.getElementById('intro-car-' + i); car.style.animation = 'none'; void car.offsetWidth; car.style.animation = `raceDash ${speeds[i-1]}s ease-in-out 0s forwards`; } setTimeout(() => { goToSlide(1); btn.classList.remove('opacity-50', 'pointer-events-none'); btn.innerHTML = 'ปล่อยรถเข้าสู่บทเรียน!'; }, 8500); }
+        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+        function allowDrop(ev) { ev.preventDefault(); if(ev.currentTarget.children.length === 0) ev.currentTarget.classList.add('drag-over'); }
+        function dragLeave(ev) { ev.currentTarget.classList.remove('drag-over'); }
+        function drop(ev, slideType) { ev.preventDefault(); ev.currentTarget.classList.remove('drag-over'); const data = ev.dataTransfer.getData("text"); const car = document.getElementById(data); const slot = ev.currentTarget; if(slot.classList.contains('finish-slot') && slot.children.length === 0 && car) { slot.appendChild(car); car.style.transform = "scaleX(-1) scale(0.65)"; if(slideType === 1) { slot.classList.add('bg-blue-900/40', 'border-blue-500'); updateMathSlide1(); } else { slot.classList.add('bg-amber-900/40', 'border-amber-500'); updateMathSlide2(); } } }
+        function clickMove(car, slideType) { if(car.parentElement.classList.contains('finish-slot')) return; const maxSlots = slideType === 1 ? 5 : 3; for(let i=1; i<=maxSlots; i++) { const slot = document.getElementById('slot-' + slideType + '-' + i); if(slot && slot.children.length === 0) { slot.appendChild(car); car.style.transform = "scaleX(-1) scale(0.65)"; if(slideType === 1) { slot.classList.add('bg-blue-900/40', 'border-blue-500'); updateMathSlide1(); } else { slot.classList.add('bg-amber-900/40', 'border-amber-500'); updateMathSlide2(); } break; } } }
+        function updateMathSlide1() { let count = 0; for(let i=1; i<=5; i++) if(document.getElementById('slot-1-'+i).children.length > 0) count++; let eq = []; for(let i=0; i<count; i++) eq.push(5-i); let eqStr = eq.length > 0 ? eq.join(' \\times ') : '\\text{รอรถเข้าเส้นชัย...}'; if (count > 0 && count < 5) eqStr += ' \\times \\dots'; else if (count === 5) eqStr += ' = 120 \\text{ (5!)}'; const m = document.getElementById('s1-math'); m.innerHTML = `\\( ${eqStr} \\)`; MathJax.typesetPromise([m]); }
+        function updateMathSlide2() { let count = 0; for(let i=1; i<=3; i++) if(document.getElementById('slot-2-'+i).children.length > 0) count++; let eq = []; for(let i=0; i<count; i++) eq.push(5-i); let eqStr = eq.length > 0 ? eq.join(' \\times ') : '\\text{คลิกหรือลากรถขึ้นโพเดียม...}'; if (count > 0 && count < 3) eqStr += ' \\times \\dots'; else if (count === 3) { eqStr += ' = 60'; document.getElementById('s2-math-formula').classList.remove('opacity-0'); } const m = document.getElementById('s2-math-step'); m.innerHTML = `\\( ${eqStr} \\)`; MathJax.typesetPromise([m]); }
+        function resetSlide(slideType) { const maxCars = 5; const maxSlots = slideType === 1 ? 5 : 3; for(let i=1; i<=maxCars; i++) { const car = document.getElementById('car-' + slideType + '-' + i); const wrap = document.getElementById('wrap-' + slideType + '-' + i); if(car && wrap) { wrap.appendChild(car); car.style.transform = "scaleX(-1) scale(1)"; } } for(let i=1; i<=maxSlots; i++) { const slot = document.getElementById('slot-' + slideType + '-' + i); if(slot) slot.classList.remove('bg-blue-900/40', 'border-blue-500', 'bg-amber-900/40', 'border-amber-500'); } if(slideType === 1) document.getElementById('s1-math').innerHTML = `\\( \\text{รอรถเข้าเส้นชัย...} \\)`; else { document.getElementById('s2-math-step').innerHTML = `\\( \\text{คลิกหรือลากรถขึ้นโพเดียม...} \\)`; document.getElementById('s2-math-formula').classList.add('opacity-0'); } MathJax.typesetPromise(); }
+        let safeStep = 0; function initSafe() { safeStep = 0; const sequence = "0123456789012345678901234567890123456789"; for(let i=1; i<=4; i++) { const strip = document.getElementById('strip-'+i); strip.innerHTML = ''; strip.style.transition = 'none'; strip.style.transform = 'translateY(0px)'; sequence.split('').forEach(num => strip.innerHTML += `<div class="safe-num">${num}</div>`); document.getElementById('opt-'+i).classList.add('opacity-0'); } document.getElementById('s3-math').innerHTML = `\\( \\text{รอการวิเคราะห์...} \\)`; document.getElementById('btn-safe-step').classList.remove('hidden'); }
+        function analyzeSafeStep() { if(safeStep >= 4) return; safeStep++; const strip = document.getElementById('strip-' + safeStep); strip.style.transition = 'none'; strip.style.transform = 'translateY(0px)'; setTimeout(() => { const targetNum = Math.floor(Math.random() * 10) + 20; const itemHeight = 140; const finalY = -(targetNum * itemHeight); strip.style.transition = `transform 1.5s cubic-bezier(0.15, 1, 0.3, 1)`; strip.style.transform = `translateY(${finalY}px)`; }, 50); setTimeout(() => { document.getElementById('opt-' + safeStep).classList.remove('opacity-0'); let eqArray = Array(safeStep).fill('10'); let eqStr = eqArray.join(' \\times '); if(safeStep === 4) { eqStr += ' = 10,000 \\text{ (10}^4\\text{)}'; document.getElementById('btn-safe-step').classList.add('hidden'); } else eqStr += ' \\times \\dots'; const mathEl = document.getElementById('s3-math'); mathEl.innerHTML = `\\( ${eqStr} \\)`; MathJax.typesetPromise([mathEl]); }, 1600); }
+        let lotStep6 = 0; function initLottery6() { lotStep6 = 0; document.getElementById('lot-zone-a').style = "opacity: 0.3; transform: scale(0.95);"; document.getElementById('lot-zone-b').style = "opacity: 0.3; transform: scale(0.95);"; document.getElementById('lot-operator').style.opacity = '0'; document.getElementById('lottery-ans6').classList.add('hidden'); const btn = document.getElementById('btn-lottery6'); btn.innerText = "วิเคราะห์การจับรางวัล โซน A"; btn.classList.remove('hidden', 'bg-emerald-600', 'hover:bg-emerald-500', 'bg-purple-600', 'hover:bg-purple-500'); btn.classList.add('bg-blue-600', 'hover:bg-blue-500'); }
+        function nextLotteryStep6() { const btn = document.getElementById('btn-lottery6'); lotStep6++; if(lotStep6 === 1) { document.getElementById('lot-zone-a').style = "opacity: 1; transform: scale(1);"; btn.innerText = "วิเคราะห์การจับรางวัล โซน B"; btn.classList.replace('bg-blue-600', 'bg-emerald-600'); btn.classList.replace('hover:bg-blue-500', 'hover:bg-emerald-500'); } else if (lotStep6 === 2) { document.getElementById('lot-zone-b').style = "opacity: 1; transform: scale(1);"; btn.innerText = "รวมความน่าจะเป็น (กฎการคูณ)"; btn.classList.replace('bg-emerald-600', 'bg-purple-600'); btn.classList.replace('hover:bg-emerald-500', 'hover:bg-purple-500'); } else if (lotStep6 === 3) { document.getElementById('lot-operator').style.opacity = '1'; document.getElementById('lottery-ans6').classList.remove('hidden'); btn.classList.add('hidden'); } }
+
+        window.onload = () => goToSlide(0);
+    </script>
+</body>
+</html>
