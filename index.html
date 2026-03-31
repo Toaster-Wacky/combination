@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-2xl text-center">
-                    <div class="text-3xl md:text-4xl font-mono font-bold text-blue-400 mb-2 transition-all" id="s1-math">\( \text{รอรถเข้าเส้นชัย...} \)</div>
+                    <div class="text-3xl md:text-4xl font-mono font-bold text-blue-400 mb-2 transition-all" id="s1-math">รอรถเข้าเส้นชัย...</div>
                     <button onclick="resetSlide(1)" class="mt-2 text-slate-400 hover:text-white text-sm bg-slate-800 px-4 py-1 rounded-full transition hover:bg-slate-700">
                         <i class="fa-solid fa-rotate-right mr-1"></i> รีเซ็ตการแข่งขัน
                     </button>
@@ -186,7 +186,7 @@
                     <div class="glass-panel p-6 md:p-8 rounded-3xl flex-1 flex flex-col justify-center">
                         <h3 class="text-2xl font-bold text-amber-400 mb-4 text-center">หลักการตัดตัวเลือก (Cancellation)</h3>
                         <div class="bg-slate-900/80 p-6 rounded-2xl border border-slate-700 min-h-[250px] flex flex-col justify-center text-center overflow-x-auto">
-                            <div id="s2-math-step" class="text-2xl md:text-3xl font-mono text-white transition-opacity duration-500 mb-6">\( \text{คลิกหรือลากรถ...} \)</div>
+                            <div id="s2-math-step" class="text-2xl md:text-3xl font-mono text-white transition-opacity duration-500 mb-6">คลิกหรือลากรถขึ้นโพเดียม...</div>
                             <div id="s2-math-formula" class="opacity-0 transition-opacity duration-700 border-t border-slate-700 pt-6">
                                 <p class="text-slate-300 text-sm mb-4">มีรถ 5 คัน แต่รับรางวัล 3 อันดับ<br>รถที่เหลืออีก 2 คันสลับที่กันเองได้ \( 2! \) <span class="text-amber-400">(ต้องหารทิ้ง)</span></p>
                                 <div class="text-2xl md:text-3xl font-mono text-white mb-2">\( \frac{5 \times 4 \times 3 \times \color{red}{2 \times 1}}{\color{red}{2 \times 1}} = 60 \)</div>
@@ -219,7 +219,7 @@
                         <div class="bg-slate-800/80 p-8 rounded-3xl border-l-4 border-red-500 shadow-xl">
                             <h4 class="text-red-400 font-bold mb-4">ความเป็นไปได้ทั้งหมด:</h4>
                             <p class="text-slate-300 text-sm mb-6">รหัสแต่ละหลักสามารถเลือกเลขได้ตั้งแต่ <b>0 ถึง 9</b> รวมทั้งหมด 10 ตัวเลือก และ <span class="text-white font-bold underline">สามารถใช้ตัวเลขซ้ำได้</span></p>
-                            <div class="text-3xl font-mono font-bold text-white bg-slate-900 p-6 rounded-2xl text-center border border-slate-700 min-h-[100px] flex items-center justify-center overflow-x-auto" id="s3-math">\( \text{รอการวิเคราะห์...} \)</div>
+                            <div class="text-3xl font-mono font-bold text-white bg-slate-900 p-6 rounded-2xl text-center border border-slate-700 min-h-[100px] flex items-center justify-center overflow-x-auto" id="s3-math">รอการวิเคราะห์...</div>
                         </div>
                         <button onclick="initSafe()" class="text-slate-400 hover:text-white underline text-sm text-center">รีเซ็ตตู้เซฟ</button>
                     </div>
@@ -254,7 +254,7 @@
                         <div class="text-6xl md:text-7xl font-mono text-white opacity-0 transition-opacity" id="s4-n-k">\( \binom{10}{3} \)</div>
                     </div>
 
-                    <div class="flex flex-col md:flex-row items-center justify-between w-full min-w-[700px] gap-8">
+                    <div class="flex flex-wrap items-end justify-center gap-10 w-full min-w-[700px]">
                         <div class="flex items-end gap-4">
                             <div class="flex flex-col items-center gap-4">
                                 <div class="w-28 h-28 border-4 border-white rounded-[24px] flex items-center justify-center text-6xl bg-slate-900/50" id="basket-1"></div>
@@ -272,30 +272,17 @@
                             </div>
                         </div>
 
-                        <div class="flex-1 flex flex-col justify-center gap-4 w-full md:w-auto">
-                            <div class="bg-slate-900/80 p-6 rounded-2xl border-l-4 border-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.1)]">
-                                <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider mb-4">สูตรการจัดหมู่ (Combination)</h3>
-                                <div class="text-2xl font-mono text-white mb-2 overflow-x-auto pb-2">
-                                    \( C(n,k) = \binom{n}{k} = \frac{n!}{(n-k)! \cdot k!} \)
-                                </div>
-                                <p class="text-slate-400 text-sm">ใช้เมื่อ <span class="text-white font-bold">ลำดับไม่มีความสำคัญ</span></p>
-                            </div>
-                            
-                            <div class="bg-slate-900/80 p-6 rounded-2xl border-l-4 border-blue-500 opacity-0 transition-opacity duration-500" id="step4-result">
-                                <h3 class="text-sm font-bold text-blue-400 uppercase tracking-wider mb-2">แทนค่าสมการ:</h3>
-                                <div class="text-2xl md:text-3xl font-mono text-white overflow-x-auto pb-2" id="math-apple-comb">
-                                    \( \dots \)
-                                </div>
-                            </div>
+                        <div class="text-3xl md:text-4xl font-mono text-white opacity-0 transition-opacity pb-6 pl-4" id="s4-formula">
+                            \( \frac{10!}{7! \cdot 3!} = \frac{10 \cdot 9 \cdot 8}{3 \cdot 2 \cdot 1} = 120 \)
                         </div>
                     </div>
                     
-                    <div class="mt-4 flex flex-wrap justify-center gap-4">
+                    <div class="mt-4 flex flex-col items-center gap-3">
                         <button onclick="initApples()" class="text-slate-400 hover:text-white text-sm bg-slate-800 px-6 py-2 rounded-full transition border border-slate-600">
                             <i class="fa-solid fa-rotate-right mr-1"></i> เทตะกร้าเริ่มใหม่
                         </button>
                         <button onclick="goToSlide(5)" class="text-white text-sm bg-amber-600 hover:bg-amber-500 px-6 py-2 rounded-full transition font-bold flex items-center gap-2 shadow-[0_0_15px_rgba(217,119,6,0.5)]">
-                            ดูที่มาของสูตร (ทำไมต้องหาร?) <i class="fa-solid fa-arrow-right"></i>
+                            ดูเบื้องหลังการคำนวณ <i class="fa-solid fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>
@@ -422,16 +409,16 @@
                 <div class="glass-panel p-6 md:p-10 rounded-3xl mb-8 flex flex-col items-center overflow-x-auto">
                     <div class="w-full flex flex-col gap-10 mt-4 items-center min-w-[700px] max-w-[850px]">
                         
-                        <div class="flex flex-row items-center justify-center gap-3 md:gap-6 w-full" id="lot7-zone-a">
-                            <div class="text-xl md:text-3xl font-mono text-white text-right whitespace-nowrap w-16 md:w-24 flex-shrink-0">1 - 50</div>
-                            <div class="grid grid-cols-10 gap-1 md:gap-2 flex-shrink-0" id="grid7-a"></div>
-                            <div class="text-2xl md:text-4xl font-serif text-white text-left w-8 md:w-10 flex-shrink-0">A</div>
+                        <div class="flex items-center justify-center gap-4 w-full" id="lot7-zone-a">
+                            <div class="text-2xl md:text-4xl font-mono text-white text-right leading-tight whitespace-nowrap flex-shrink-0 w-24">1 - 50</div>
+                            <div class="grid grid-cols-10 gap-x-2 gap-y-2 md:gap-x-4 md:gap-y-3 flex-shrink-0" id="grid7-a"></div>
+                            <div class="text-3xl md:text-5xl font-serif text-white text-left w-10 flex-shrink-0">A</div>
                         </div>
 
-                        <div class="flex flex-row items-center justify-center gap-3 md:gap-6 w-full mt-4" id="lot7-zone-b">
-                            <div class="text-xl md:text-3xl font-mono text-white text-right whitespace-nowrap w-16 md:w-24 flex-shrink-0">1 - 12</div>
-                            <div class="flex gap-1 md:gap-2 flex-shrink-0" id="grid7-b"></div>
-                            <div class="text-2xl md:text-4xl font-serif text-white text-left w-8 md:w-10 flex-shrink-0">B</div>
+                        <div class="flex items-center justify-center gap-4 w-full mt-4" id="lot7-zone-b">
+                            <div class="text-2xl md:text-4xl font-mono text-white text-right leading-tight whitespace-nowrap flex-shrink-0 w-24">1 - 12</div>
+                            <div class="flex gap-2 md:gap-4 flex-shrink-0" id="grid7-b"></div>
+                            <div class="text-3xl md:text-5xl font-serif text-white text-left w-10 flex-shrink-0">B</div>
                         </div>
 
                         <div class="flex items-center justify-center gap-8 mt-12 w-full opacity-0 transition-opacity duration-500" id="lot7-math-row">
@@ -485,7 +472,7 @@
                 <div id="slide-8-hidden" class="hidden-slide mt-8 glass-panel p-6 md:p-10 rounded-3xl border border-orange-500 flex-col items-center justify-center w-full">
                     <h3 class="text-2xl md:text-3xl font-bold text-orange-400 mb-6 text-center">Stars and Bars: รูปทั่วไป</h3>
                     <div class="bg-slate-900/80 p-6 md:p-8 rounded-2xl border border-slate-700 flex flex-col items-center gap-6 w-full overflow-x-auto">
-                        <p class="text-slate-300 text-center md:text-lg">การจัดหมู่แบบซ้ำได้ คือการเลือกของ \( k \) ชิ้น จากตัวเลือก \( n \) ชนิด <br><span class="text-sm">(โดยใช้ไม้กั้น \( n-1 \) อัน ในการแบ่งชนิด)</span></p>
+                        <p class="text-slate-300 text-center md:text-lg font-sans">การจัดหมู่แบบซ้ำได้ คือการเลือกของ <span class="font-mono text-white text-xl">k</span> ชิ้น จากตัวเลือก <span class="font-mono text-white text-xl">n</span> ชนิด <br><span class="text-sm">(โดยใช้ไม้กั้น <span class="font-mono text-white">n-1</span> อัน ในการแบ่งชนิด)</span></p>
                         
                         <div class="flex items-center justify-center gap-4 md:gap-6 p-4 md:p-6 bg-slate-800 rounded-xl border border-slate-700 w-max min-w-full">
                             <div class="flex flex-col items-center gap-2">
@@ -494,19 +481,19 @@
                                     <div class="w-12 h-12 md:w-16 md:h-16 border-2 border-white rounded-xl"></div>
                                     <div class="w-12 h-12 md:w-16 md:h-16 border-2 border-white rounded-xl"></div>
                                 </div>
-                                <div class="text-white font-mono text-lg md:text-xl mt-2">\( k \) ของ</div>
+                                <div class="text-white font-mono text-lg md:text-xl mt-2 font-bold">k ของ</div>
                             </div>
-                            <div class="text-3xl md:text-4xl text-white font-serif">\( \dots \)</div>
+                            <div class="text-3xl md:text-4xl text-white font-serif">...</div>
                             <div class="flex gap-2 md:gap-4">
                                 <div class="w-2 h-12 md:h-16 bg-orange-500 rounded-full"></div>
                                 <div class="w-2 h-12 md:h-16 bg-orange-500 rounded-full"></div>
                             </div>
-                            <div class="text-3xl md:text-4xl text-white font-serif">\( \dots \)</div>
-                            <div class="text-white font-mono text-lg md:text-xl text-center">\( n-1 \)<br>กั้น</div>
+                            <div class="text-3xl md:text-4xl text-white font-serif">...</div>
+                            <div class="text-white font-mono text-lg md:text-xl text-center font-bold">n-1<br>กั้น</div>
                         </div>
                         
-                        <div class="text-2xl md:text-4xl lg:text-5xl font-mono font-bold text-white bg-slate-950 px-6 py-4 md:px-10 md:py-6 rounded-xl border-2 border-dashed border-orange-500 mt-4 whitespace-nowrap">
-                            \( \binom{n+k-1}{k-1} \)
+                        <div class="text-2xl md:text-4xl lg:text-5xl font-mono font-bold text-white bg-slate-950 px-6 py-4 md:px-10 md:py-6 rounded-xl border-2 border-dashed border-orange-500 mt-4 whitespace-nowrap" id="sb-formula-final">
+                            \( \binom{n+k-1}{k-1} = \frac{(n+k-1)!}{(n-1)! \cdot k!} \)
                         </div>
                     </div>
                 </div>
@@ -546,7 +533,6 @@
             }
             document.getElementById('s4-n-k').classList.add('opacity-0');
             document.getElementById('s4-formula').classList.add('opacity-0');
-            document.getElementById('step4-result').classList.add('opacity-0');
             
             document.getElementById('k-label-1').innerHTML = '&nbsp;';
             document.getElementById('k-dot-1').innerHTML = '&nbsp;';
@@ -578,13 +564,6 @@
                 
                 setTimeout(() => { document.getElementById('s4-n-k').classList.remove('opacity-0'); }, 500);
                 setTimeout(() => { document.getElementById('s4-formula').classList.remove('opacity-0'); }, 1500);
-                
-                setTimeout(() => { 
-                    const res = document.getElementById('step4-result');
-                    res.classList.remove('opacity-0');
-                    document.getElementById('math-apple-comb').innerHTML = `\\( \\binom{10}{3} = \\frac{10!}{7! \\cdot 3!} = 120 \\text{ วิธี} \\)`;
-                    MathJax.typesetPromise([document.getElementById('math-apple-comb')]);
-                }, 2000);
             }
         }
 
@@ -665,7 +644,7 @@
                 hiddenSlide.style.display = 'none';
             } else {
                 hiddenSlide.style.display = 'flex';
-                MathJax.typesetPromise([hiddenSlide]); 
+                MathJax.typesetPromise([document.getElementById('sb-formula-final')]); 
             }
         }
 
@@ -680,8 +659,8 @@
         function clickMove(car, slideType) { if(car.parentElement.classList.contains('finish-slot')) return; const maxSlots = slideType === 1 ? 5 : 3; for(let i=1; i<=maxSlots; i++) { const slot = document.getElementById('slot-' + slideType + '-' + i); if(slot && slot.children.length === 0) { slot.appendChild(car); car.style.transform = "scaleX(-1) scale(0.65)"; if(slideType === 1) { slot.classList.add('bg-blue-900/40', 'border-blue-500'); updateMathSlide1(); } else { slot.classList.add('bg-amber-900/40', 'border-amber-500'); updateMathSlide2(); } break; } } }
         function updateMathSlide1() { let count = 0; for(let i=1; i<=5; i++) if(document.getElementById('slot-1-'+i).children.length > 0) count++; let eq = []; for(let i=0; i<count; i++) eq.push(5-i); let eqStr = eq.length > 0 ? eq.join(' \\times ') : '\\text{รอรถเข้าเส้นชัย...}'; if (count > 0 && count < 5) eqStr += ' \\times \\dots'; else if (count === 5) eqStr += ' = 120 \\text{ (5!)}'; const m = document.getElementById('s1-math'); m.innerHTML = `\\( ${eqStr} \\)`; MathJax.typesetPromise([m]); }
         function updateMathSlide2() { let count = 0; for(let i=1; i<=3; i++) if(document.getElementById('slot-2-'+i).children.length > 0) count++; let eq = []; for(let i=0; i<count; i++) eq.push(5-i); let eqStr = eq.length > 0 ? eq.join(' \\times ') : '\\text{คลิกหรือลากรถขึ้นโพเดียม...}'; if (count > 0 && count < 3) eqStr += ' \\times \\dots'; else if (count === 3) { eqStr += ' = 60'; document.getElementById('s2-math-formula').classList.remove('opacity-0'); } const m = document.getElementById('s2-math-step'); m.innerHTML = `\\( ${eqStr} \\)`; MathJax.typesetPromise([m]); }
-        function resetSlide(slideType) { const maxCars = 5; const maxSlots = slideType === 1 ? 5 : 3; for(let i=1; i<=maxCars; i++) { const car = document.getElementById('car-' + slideType + '-' + i); const wrap = document.getElementById('wrap-' + slideType + '-' + i); if(car && wrap) { wrap.appendChild(car); car.style.transform = "scaleX(-1) scale(1)"; } } for(let i=1; i<=maxSlots; i++) { const slot = document.getElementById('slot-' + slideType + '-' + i); if(slot) slot.classList.remove('bg-blue-900/40', 'border-blue-500', 'bg-amber-900/40', 'border-amber-500'); } if(slideType === 1) document.getElementById('s1-math').innerHTML = `\\( \\text{รอรถเข้าเส้นชัย...} \\)`; else { document.getElementById('s2-math-step').innerHTML = `\\( \\text{คลิกหรือลากรถขึ้นโพเดียม...} \\)`; document.getElementById('s2-math-formula').classList.add('opacity-0'); } MathJax.typesetPromise(); }
-        let safeStep = 0; function initSafe() { safeStep = 0; const sequence = "0123456789012345678901234567890123456789"; for(let i=1; i<=4; i++) { const strip = document.getElementById('strip-'+i); strip.innerHTML = ''; strip.style.transition = 'none'; strip.style.transform = 'translateY(0px)'; sequence.split('').forEach(num => strip.innerHTML += `<div class="safe-num">${num}</div>`); document.getElementById('opt-'+i).classList.add('opacity-0'); } document.getElementById('s3-math').innerHTML = `\\( \\text{รอการวิเคราะห์...} \\)`; document.getElementById('btn-safe-step').classList.remove('hidden'); }
+        function resetSlide(slideType) { const maxCars = 5; const maxSlots = slideType === 1 ? 5 : 3; for(let i=1; i<=maxCars; i++) { const car = document.getElementById('car-' + slideType + '-' + i); const wrap = document.getElementById('wrap-' + slideType + '-' + i); if(car && wrap) { wrap.appendChild(car); car.style.transform = "scaleX(-1) scale(1)"; } } for(let i=1; i<=maxSlots; i++) { const slot = document.getElementById('slot-' + slideType + '-' + i); if(slot) slot.classList.remove('bg-blue-900/40', 'border-blue-500', 'bg-amber-900/40', 'border-amber-500'); } if(slideType === 1) document.getElementById('s1-math').innerHTML = 'รอรถเข้าเส้นชัย...'; else { document.getElementById('s2-math-step').innerHTML = 'คลิกหรือลากรถขึ้นโพเดียม...'; document.getElementById('s2-math-formula').classList.add('opacity-0'); } MathJax.typesetPromise(); }
+        let safeStep = 0; function initSafe() { safeStep = 0; const sequence = "0123456789012345678901234567890123456789"; for(let i=1; i<=4; i++) { const strip = document.getElementById('strip-'+i); strip.innerHTML = ''; strip.style.transition = 'none'; strip.style.transform = 'translateY(0px)'; sequence.split('').forEach(num => strip.innerHTML += `<div class="safe-num">${num}</div>`); document.getElementById('opt-'+i).classList.add('opacity-0'); } document.getElementById('s3-math').innerHTML = 'รอการวิเคราะห์...'; document.getElementById('btn-safe-step').classList.remove('hidden'); }
         function analyzeSafeStep() { if(safeStep >= 4) return; safeStep++; const strip = document.getElementById('strip-' + safeStep); strip.style.transition = 'none'; strip.style.transform = 'translateY(0px)'; setTimeout(() => { const targetNum = Math.floor(Math.random() * 10) + 20; const itemHeight = 140; const finalY = -(targetNum * itemHeight); strip.style.transition = `transform 1.5s cubic-bezier(0.15, 1, 0.3, 1)`; strip.style.transform = `translateY(${finalY}px)`; }, 50); setTimeout(() => { document.getElementById('opt-' + safeStep).classList.remove('opacity-0'); let eqArray = Array(safeStep).fill('10'); let eqStr = eqArray.join(' \\times '); if(safeStep === 4) { eqStr += ' = 10,000 \\text{ (10}^4\\text{)}'; document.getElementById('btn-safe-step').classList.add('hidden'); } else eqStr += ' \\times \\dots'; const mathEl = document.getElementById('s3-math'); mathEl.innerHTML = `\\( ${eqStr} \\)`; MathJax.typesetPromise([mathEl]); }, 1600); }
         let lotStep6 = 0; function initLottery6() { lotStep6 = 0; document.getElementById('lot-zone-a').style = "opacity: 0.3; transform: scale(0.95);"; document.getElementById('lot-zone-b').style = "opacity: 0.3; transform: scale(0.95);"; document.getElementById('lot-operator').style.opacity = '0'; document.getElementById('lottery-ans6').classList.add('hidden'); const btn = document.getElementById('btn-lottery6'); btn.innerText = "วิเคราะห์การจับรางวัล โซน A"; btn.classList.remove('hidden', 'bg-emerald-600', 'hover:bg-emerald-500', 'bg-purple-600', 'hover:bg-purple-500'); btn.classList.add('bg-blue-600', 'hover:bg-blue-500'); }
         function nextLotteryStep6() { const btn = document.getElementById('btn-lottery6'); lotStep6++; if(lotStep6 === 1) { document.getElementById('lot-zone-a').style = "opacity: 1; transform: scale(1);"; btn.innerText = "วิเคราะห์การจับรางวัล โซน B"; btn.classList.replace('bg-blue-600', 'bg-emerald-600'); btn.classList.replace('hover:bg-blue-500', 'hover:bg-emerald-500'); } else if (lotStep6 === 2) { document.getElementById('lot-zone-b').style = "opacity: 1; transform: scale(1);"; btn.innerText = "รวมความน่าจะเป็น (กฎการคูณ)"; btn.classList.replace('bg-emerald-600', 'bg-purple-600'); btn.classList.replace('hover:bg-emerald-500', 'hover:bg-purple-500'); } else if (lotStep6 === 3) { document.getElementById('lot-operator').style.opacity = '1'; document.getElementById('lottery-ans6').classList.remove('hidden'); btn.classList.add('hidden'); } }
