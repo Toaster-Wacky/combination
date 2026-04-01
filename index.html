@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ฃ<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -192,7 +192,8 @@
                                 <span class="font-sans">คลิกหรือลากรถขึ้นโพเดียม...</span>
                             </div>
                             <div id="s2-math-formula" class="opacity-0 transition-opacity duration-700 border-t border-slate-700 pt-6">
-                                 <div class="text-2xl md:text-3xl font-mono text-white mb-2">\( \frac{5 \times 4 \times 3 \times \color{red}{2 \times 1}}{\color{red}{2 \times 1}} = 60 \)</div>
+                                
+                                <div class="text-2xl md:text-3xl font-mono text-white mb-2">\( \frac{5 \times 4 \times 3 \times \color{red}{2 \times 1}}{\color{red}{2 \times 1}} = 60 \)</div>
                                 <div class="text-xs text-slate-500">สูตรทั่วไป: \( P(n,r) = \frac{n!}{(n-r)!} \)</div>
                             </div>
                         </div>
@@ -542,7 +543,7 @@
         }
 
         // ==========================================
-        // SLIDE 4: APPLES (แก้ไขป้องกันสระลอย)
+        // SLIDE 4: APPLES 
         // ==========================================
         let appleStep = 0;
         function initApples() {
@@ -594,7 +595,6 @@
                 setTimeout(() => { 
                     const res = document.getElementById('step4-result');
                     res.classList.remove('opacity-0');
-                    // แยก "วิธี" ให้เป็น HTML ปกติ
                     document.getElementById('math-apple-comb').innerHTML = `\\( \\binom{10}{3} = \\frac{10!}{7! \\cdot 3!} = 120 \\) <span class="font-sans ml-2">วิธี</span>`;
                     MathJax.typesetPromise([document.getElementById('math-apple-comb')]);
                 }, 2000);
@@ -631,7 +631,7 @@
         }
 
         // ==========================================
-        // SLIDE 8: STARS AND BARS 
+        // SLIDE 8: STARS AND BARS (ยกเลิกการอัปเดตสมการ)
         // ==========================================
         function initStarsAndBars() { 
             const r = document.getElementById('sb-row'); 
@@ -646,8 +646,6 @@
             document.getElementById('sb-status').innerHTML = `<span class="text-red-400">🍎 ?</span> <span class="text-slate-600">|</span> <span class="text-yellow-400">🍍 ?</span>`; 
             document.getElementById('sb-current-way').innerText = `นี่คือรูปแบบที่ 1 จากทั้งหมด 7 วิธี`;
             document.getElementById('slide-8-hidden').style.display = 'none';
-            document.getElementById('sb-formula-dynamic').innerHTML = `\\( \\binom{6+2-1}{2-1} = \\binom{7}{1} = 7 \\) <span class="font-sans text-xl font-normal">วิธี</span>`;
-            MathJax.typesetPromise();
         }
 
         function placeDivider(pos) { 
@@ -668,8 +666,7 @@
             document.getElementById('sb-status').innerHTML = `<span class="text-red-400">🍎 ${numApples}</span> <span class="text-slate-600">|</span> <span class="text-yellow-400">🍍 ${numPineapples}</span>`; 
             
             document.getElementById('sb-current-way').innerText = `นี่คือรูปแบบที่ ${pos + 1} จากทั้งหมด 7 วิธี`;
-            document.getElementById('sb-formula-dynamic').innerHTML = `\\( \\binom{${numApples}+2-1}{2-1} = \\binom{${numApples+1}}{1} = ${numApples+1} \\) <span class="font-sans text-xl font-normal">วิธี</span>`;
-            MathJax.typesetPromise([document.getElementById('sb-formula-dynamic')]);
+            // ลบโค้ดอัปเดตสมการออกไปแล้ว สมการจะคงที่อยู่ที่ n=6, k=2 คือ 7 วิธี
         }
 
         function toggleSbBehindScenes() {
@@ -683,7 +680,7 @@
         }
 
         // ==========================================
-        // PREVIOUS SCRIPTS (Cars, Safe, Lottery 6) - (อัปเดตแก้สระลอย)
+        // PREVIOUS SCRIPTS (Cars, Safe, Lottery 6) 
         // ==========================================
         function startIntroRace() { const btn = document.getElementById('btn-start-race'); btn.classList.add('opacity-50', 'pointer-events-none'); btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังวิ่ง...'; const speeds = [4, 5, 6, 7, 8]; for(let i=1; i<=5; i++) { const car = document.getElementById('intro-car-' + i); car.style.animation = 'none'; void car.offsetWidth; car.style.animation = `raceDash ${speeds[i-1]}s ease-in-out 0s forwards`; } setTimeout(() => { goToSlide(1); btn.classList.remove('opacity-50', 'pointer-events-none'); btn.innerHTML = 'ปล่อยรถเข้าสู่บทเรียน!'; }, 8500); }
         function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
