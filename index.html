@@ -70,6 +70,7 @@
             .dot-blue { width: 1.25rem; height: 1.25rem; }
             .dot-yellow { width: 1.25rem; height: 1.25rem; box-shadow: 0 0 15px rgba(250,204,21,0.6); }
         }
+        .lot-label-inline { font-size: 2rem; font-family: monospace; color: #f8fafc; width: 100px; text-align: right; margin-right: 1.5rem; white-space: nowrap; }
 
         /* ====== Slide 8: Stars & Bars ====== */
         .sb-slot { transition: all 0.3s; cursor: pointer; }
@@ -146,7 +147,9 @@
                     </div>
                 </div>
                 <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-2xl text-center">
-                    <div class="text-3xl md:text-4xl font-mono font-bold text-blue-400 mb-2 transition-all" id="s1-math">รอรถเข้าเส้นชัย...</div>
+                    <div class="text-3xl md:text-4xl font-mono font-bold text-blue-400 mb-2 transition-all flex justify-center items-center gap-2" id="s1-math">
+                        <span class="font-sans">รอรถเข้าเส้นชัย...</span>
+                    </div>
                     <button onclick="resetSlide(1)" class="mt-2 text-slate-400 hover:text-white text-sm bg-slate-800 px-4 py-1 rounded-full transition hover:bg-slate-700">
                         <i class="fa-solid fa-rotate-right mr-1"></i> รีเซ็ตการแข่งขัน
                     </button>
@@ -185,9 +188,11 @@
                     <div class="glass-panel p-6 md:p-8 rounded-3xl flex-1 flex flex-col justify-center">
                         <h3 class="text-2xl font-bold text-amber-400 mb-4 text-center">หลักการตัดตัวเลือก (Cancellation)</h3>
                         <div class="bg-slate-900/80 p-6 rounded-2xl border border-slate-700 min-h-[250px] flex flex-col justify-center text-center overflow-x-auto">
-                            <div id="s2-math-step" class="text-2xl md:text-3xl font-mono text-white transition-opacity duration-500 mb-6">คลิกหรือลากรถขึ้นโพเดียม...</div>
+                            <div id="s2-math-step" class="text-2xl md:text-3xl font-mono text-white transition-opacity duration-500 mb-6 flex justify-center items-center gap-2">
+                                <span class="font-sans">คลิกหรือลากรถขึ้นโพเดียม...</span>
+                            </div>
                             <div id="s2-math-formula" class="opacity-0 transition-opacity duration-700 border-t border-slate-700 pt-6">
-                                <p class="text-slate-300 text-sm mb-4">มีรถ 5 คัน แต่รับรางวัล 3 อันดับ<br>รถที่เหลืออีก 2 คันสลับที่กันเองได้ \( 2! \) <span class="text-amber-400">(ต้องหารทิ้ง)</span></p>
+                                <p class="text-slate-300 text-sm mb-4">มีรถ 5 คัน แต่รับรางวัล 3 อันดับ<br>รถที่เหลืออีก 2 คันสลับที่กันเองได้ <span class="font-mono">\( 2! \)</span> <span class="text-amber-400">(ต้องหารทิ้ง)</span></p>
                                 <div class="text-2xl md:text-3xl font-mono text-white mb-2">\( \frac{5 \times 4 \times 3 \times \color{red}{2 \times 1}}{\color{red}{2 \times 1}} = 60 \)</div>
                                 <div class="text-xs text-slate-500">สูตรทั่วไป: \( P(n,r) = \frac{n!}{(n-r)!} \)</div>
                             </div>
@@ -218,7 +223,9 @@
                         <div class="bg-slate-800/80 p-8 rounded-3xl border-l-4 border-red-500 shadow-xl">
                             <h4 class="text-red-400 font-bold mb-4">ความเป็นไปได้ทั้งหมด:</h4>
                             <p class="text-slate-300 text-sm mb-6">รหัสแต่ละหลักสามารถเลือกเลขได้ตั้งแต่ <b>0 ถึง 9</b> รวมทั้งหมด 10 ตัวเลือก และ <span class="text-white font-bold underline">สามารถใช้ตัวเลขซ้ำได้</span></p>
-                            <div class="text-3xl font-mono font-bold text-white bg-slate-900 p-6 rounded-2xl text-center border border-slate-700 min-h-[100px] flex items-center justify-center overflow-x-auto" id="s3-math">รอการวิเคราะห์...</div>
+                            <div class="text-3xl font-mono font-bold text-white bg-slate-900 p-6 rounded-2xl text-center border border-slate-700 min-h-[100px] flex items-center justify-center overflow-x-auto gap-2" id="s3-math">
+                                <span class="font-sans">รอการวิเคราะห์...</span>
+                            </div>
                         </div>
                         <button onclick="initSafe()" class="text-slate-400 hover:text-white underline text-sm text-center">รีเซ็ตตู้เซฟ</button>
                     </div>
@@ -282,8 +289,8 @@
                             
                             <div class="bg-slate-900/80 p-6 rounded-2xl border-l-4 border-blue-500 opacity-0 transition-opacity duration-500" id="step4-result">
                                 <h3 class="text-sm font-bold text-blue-400 uppercase tracking-wider mb-2">แทนค่าสมการ:</h3>
-                                <div class="text-2xl md:text-3xl font-mono text-white overflow-x-auto pb-2" id="math-apple-comb">
-                                    รอหยิบผลไม้...
+                                <div class="text-2xl md:text-3xl font-mono text-white overflow-x-auto pb-2 flex items-center" id="math-apple-comb">
+                                    <span class="font-sans">รอหยิบผลไม้...</span>
                                 </div>
                             </div>
                         </div>
@@ -294,7 +301,7 @@
                             <i class="fa-solid fa-rotate-right mr-1"></i> เทตะกร้าเริ่มใหม่
                         </button>
                         <button onclick="goToSlide(5)" class="text-white text-sm bg-amber-600 hover:bg-amber-500 px-6 py-2 rounded-full transition font-bold flex items-center gap-2 shadow-[0_0_15px_rgba(217,119,6,0.5)]">
-                            ดูที่มาของสูตร (ทำไมต้องหาร?) <i class="fa-solid fa-arrow-right"></i>
+                            ดูเบื้องหลังการคำนวณ <i class="fa-solid fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>
@@ -323,7 +330,9 @@
                         </div>
                         <div class="mt-auto text-center w-full">
                             <p class="text-slate-400 mb-2">สูตร P นับได้</p>
-                            <div class="text-4xl font-mono font-bold text-white bg-red-950/50 p-4 rounded-xl border border-red-500/50">\( 3! = 6 \) วิธี</div>
+                            <div class="text-4xl font-mono font-bold text-white bg-red-950/50 p-4 rounded-xl border border-red-500/50 flex justify-center items-center gap-2">
+                                \( 3! = 6 \) <span class="font-sans text-2xl font-normal">วิธี</span>
+                            </div>
                         </div>
                     </div>
                     <div class="glass-panel p-8 rounded-3xl flex-1 flex flex-col items-center border border-emerald-500 shadow-[0_0_50px_rgba(16,185,129,0.2)] relative">
@@ -343,7 +352,9 @@
                             </div>
                             <div class="w-full text-center">
                                 <p class="text-slate-400 mb-2">สูตร C นับรวบยอดเป็น</p>
-                                <div class="text-4xl font-mono font-bold text-white bg-emerald-900/50 p-4 rounded-xl border border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]">\( 1 \) วิธี</div>
+                                <div class="text-4xl font-mono font-bold text-white bg-emerald-900/50 p-4 rounded-xl border border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)] flex justify-center items-center gap-2">
+                                    \( 1 \) <span class="font-sans text-2xl font-normal">วิธี</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -421,16 +432,16 @@
                 <div class="glass-panel p-6 md:p-10 rounded-3xl mb-8 flex flex-col items-center overflow-x-auto">
                     <div class="w-full flex flex-col gap-10 mt-4 items-center min-w-[700px] max-w-[850px]">
                         
-                        <div class="flex flex-row items-center justify-center gap-4 md:gap-8 w-full" id="lot7-zone-a">
-                            <div class="text-2xl md:text-4xl font-mono text-white text-right whitespace-nowrap flex-shrink-0">1 - 50</div>
+                        <div class="flex flex-row items-center justify-center gap-3 md:gap-6 w-full" id="lot7-zone-a">
+                            <div class="text-xl md:text-3xl font-mono text-white text-right whitespace-nowrap w-16 md:w-24 flex-shrink-0">1 - 50</div>
                             <div class="grid grid-cols-10 gap-1 md:gap-2 flex-shrink-0" id="grid7-a"></div>
-                            <div class="text-3xl md:text-5xl font-serif text-white text-left flex-shrink-0">A</div>
+                            <div class="text-2xl md:text-4xl font-serif text-white text-left w-8 md:w-10 flex-shrink-0">A</div>
                         </div>
 
-                        <div class="flex flex-row items-center justify-center gap-4 md:gap-8 w-full mt-4" id="lot7-zone-b">
-                            <div class="text-2xl md:text-4xl font-mono text-white text-right whitespace-nowrap flex-shrink-0">1 - 12</div>
+                        <div class="flex flex-row items-center justify-center gap-3 md:gap-6 w-full mt-4" id="lot7-zone-b">
+                            <div class="text-xl md:text-3xl font-mono text-white text-right whitespace-nowrap w-16 md:w-24 flex-shrink-0">1 - 12</div>
                             <div class="flex gap-1 md:gap-2 flex-shrink-0" id="grid7-b"></div>
-                            <div class="text-3xl md:text-5xl font-serif text-white text-left flex-shrink-0 ml-2">B</div>
+                            <div class="text-2xl md:text-4xl font-serif text-white text-left w-8 md:w-10 flex-shrink-0">B</div>
                         </div>
 
                         <div class="flex items-center justify-center gap-8 mt-12 w-full opacity-0 transition-opacity duration-500" id="lot7-math-row">
@@ -474,7 +485,9 @@
 
                 <div class="bg-orange-900/20 border border-orange-500/30 p-6 rounded-2xl text-center relative">
                     <p class="text-slate-400 mb-2 text-sm">รูปแบบที่เป็นไปได้ทั้งหมด:</p>
-                    <div class="text-3xl font-mono font-bold text-orange-400 mb-2" id="sb-formula-dynamic">\( \binom{6+2-1}{2-1} = \binom{7}{1} = 7 \) วิธี</div>
+                    <div class="text-3xl font-mono font-bold text-orange-400 mb-2 flex justify-center items-center gap-2" id="sb-formula-dynamic">
+                        \( \binom{6+2-1}{2-1} = \binom{7}{1} = 7 \) <span class="font-sans text-xl font-normal">วิธี</span>
+                    </div>
                     
                     <button onclick="toggleSbBehindScenes()" class="mt-4 text-white text-sm bg-orange-700 hover:bg-orange-600 px-6 py-2 rounded-full transition font-bold flex items-center gap-2 mx-auto shadow-lg">
                         <i class="fa-solid fa-lightbulb"></i> ดูสูตรทั่วไป (General Formula)
@@ -530,7 +543,7 @@
         }
 
         // ==========================================
-        // SLIDE 4: APPLES 
+        // SLIDE 4: APPLES (แก้ไขป้องกันสระลอย)
         // ==========================================
         let appleStep = 0;
         function initApples() {
@@ -552,7 +565,7 @@
             document.getElementById('k-label-2').innerHTML = '&nbsp;';
             document.getElementById('k-dot-2').innerHTML = '&nbsp;';
             document.getElementById('k-label-3').innerHTML = '&nbsp;';
-            document.getElementById('math-apple-comb').innerHTML = 'รอหยิบผลไม้...';
+            document.getElementById('math-apple-comb').innerHTML = '<span class="font-sans">รอหยิบผลไม้...</span>';
         }
 
         function pickApple(id, emoji) {
@@ -582,7 +595,8 @@
                 setTimeout(() => { 
                     const res = document.getElementById('step4-result');
                     res.classList.remove('opacity-0');
-                    document.getElementById('math-apple-comb').innerHTML = `\\( \\binom{10}{3} = \\frac{10!}{7! \\cdot 3!} = 120 \\text{ วิธี} \\)`;
+                    // แยก "วิธี" ให้เป็น HTML ปกติ
+                    document.getElementById('math-apple-comb').innerHTML = `\\( \\binom{10}{3} = \\frac{10!}{7! \\cdot 3!} = 120 \\) <span class="font-sans ml-2">วิธี</span>`;
                     MathJax.typesetPromise([document.getElementById('math-apple-comb')]);
                 }, 2000);
             }
@@ -618,7 +632,7 @@
         }
 
         // ==========================================
-        // SLIDE 8: STARS AND BARS (อัปเดต n ตามไม้กั้น)
+        // SLIDE 8: STARS AND BARS 
         // ==========================================
         function initStarsAndBars() { 
             const r = document.getElementById('sb-row'); 
@@ -633,7 +647,7 @@
             document.getElementById('sb-status').innerHTML = `<span class="text-red-400">🍎 ?</span> <span class="text-slate-600">|</span> <span class="text-yellow-400">🍍 ?</span>`; 
             document.getElementById('sb-current-way').innerText = `นี่คือรูปแบบที่ 1 จากทั้งหมด 7 วิธี`;
             document.getElementById('slide-8-hidden').style.display = 'none';
-            document.getElementById('sb-formula-dynamic').innerHTML = `\\( \\binom{6+2-1}{2-1} = \\binom{7}{1} = 7 \\) วิธี`;
+            document.getElementById('sb-formula-dynamic').innerHTML = `\\( \\binom{6+2-1}{2-1} = \\binom{7}{1} = 7 \\) <span class="font-sans text-xl font-normal">วิธี</span>`;
             MathJax.typesetPromise();
         }
 
@@ -655,8 +669,7 @@
             document.getElementById('sb-status').innerHTML = `<span class="text-red-400">🍎 ${numApples}</span> <span class="text-slate-600">|</span> <span class="text-yellow-400">🍍 ${numPineapples}</span>`; 
             
             document.getElementById('sb-current-way').innerText = `นี่คือรูปแบบที่ ${pos + 1} จากทั้งหมด 7 วิธี`;
-            // ตัวแปรเปลี่ยนตามจำนวน n = (numApples + numPineapples = 6), r = 2
-            document.getElementById('sb-formula-dynamic').innerHTML = `\\( \\binom{6+2-1}{2-1} = \\binom{7}{1} = 7 \\) วิธี`;
+            document.getElementById('sb-formula-dynamic').innerHTML = `\\( \\binom{${numApples}+2-1}{2-1} = \\binom{${numApples+1}}{1} = ${numApples+1} \\) <span class="font-sans text-xl font-normal">วิธี</span>`;
             MathJax.typesetPromise([document.getElementById('sb-formula-dynamic')]);
         }
 
@@ -671,7 +684,7 @@
         }
 
         // ==========================================
-        // PREVIOUS SCRIPTS (Unchanged, functioning)
+        // PREVIOUS SCRIPTS (Cars, Safe, Lottery 6) - (อัปเดตแก้สระลอย)
         // ==========================================
         function startIntroRace() { const btn = document.getElementById('btn-start-race'); btn.classList.add('opacity-50', 'pointer-events-none'); btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังวิ่ง...'; const speeds = [4, 5, 6, 7, 8]; for(let i=1; i<=5; i++) { const car = document.getElementById('intro-car-' + i); car.style.animation = 'none'; void car.offsetWidth; car.style.animation = `raceDash ${speeds[i-1]}s ease-in-out 0s forwards`; } setTimeout(() => { goToSlide(1); btn.classList.remove('opacity-50', 'pointer-events-none'); btn.innerHTML = 'ปล่อยรถเข้าสู่บทเรียน!'; }, 8500); }
         function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
@@ -679,11 +692,42 @@
         function dragLeave(ev) { ev.currentTarget.classList.remove('drag-over'); }
         function drop(ev, slideType) { ev.preventDefault(); ev.currentTarget.classList.remove('drag-over'); const data = ev.dataTransfer.getData("text"); const car = document.getElementById(data); const slot = ev.currentTarget; if(slot.classList.contains('finish-slot') && slot.children.length === 0 && car) { slot.appendChild(car); car.style.transform = "scaleX(-1) scale(0.65)"; if(slideType === 1) { slot.classList.add('bg-blue-900/40', 'border-blue-500'); updateMathSlide1(); } else { slot.classList.add('bg-amber-900/40', 'border-amber-500'); updateMathSlide2(); } } }
         function clickMove(car, slideType) { if(car.parentElement.classList.contains('finish-slot')) return; const maxSlots = slideType === 1 ? 5 : 3; for(let i=1; i<=maxSlots; i++) { const slot = document.getElementById('slot-' + slideType + '-' + i); if(slot && slot.children.length === 0) { slot.appendChild(car); car.style.transform = "scaleX(-1) scale(0.65)"; if(slideType === 1) { slot.classList.add('bg-blue-900/40', 'border-blue-500'); updateMathSlide1(); } else { slot.classList.add('bg-amber-900/40', 'border-amber-500'); updateMathSlide2(); } break; } } }
-        function updateMathSlide1() { let count = 0; for(let i=1; i<=5; i++) if(document.getElementById('slot-1-'+i).children.length > 0) count++; let eq = []; for(let i=0; i<count; i++) eq.push(5-i); let eqStr = eq.length > 0 ? eq.join(' \\times ') : ''; if (count === 0) { document.getElementById('s1-math').innerHTML = 'รอรถเข้าเส้นชัย...'; return; } if (count < 5) eqStr += ' \\times \\dots'; else if (count === 5) eqStr += ' = 120 \\text{ (5!)}'; const m = document.getElementById('s1-math'); m.innerHTML = `\\( ${eqStr} \\)`; MathJax.typesetPromise([m]); }
-        function updateMathSlide2() { let count = 0; for(let i=1; i<=3; i++) if(document.getElementById('slot-2-'+i).children.length > 0) count++; let eq = []; for(let i=0; i<count; i++) eq.push(5-i); let eqStr = eq.length > 0 ? eq.join(' \\times ') : ''; if (count === 0) { document.getElementById('s2-math-step').innerHTML = 'คลิกหรือลากรถขึ้นโพเดียม...'; return; } if (count < 3) eqStr += ' \\times \\dots'; else if (count === 3) { eqStr += ' = 60'; document.getElementById('s2-math-formula').classList.remove('opacity-0'); } const m = document.getElementById('s2-math-step'); m.innerHTML = `\\( ${eqStr} \\)`; MathJax.typesetPromise([m]); }
-        function resetSlide(slideType) { const maxCars = 5; const maxSlots = slideType === 1 ? 5 : 3; for(let i=1; i<=maxCars; i++) { const car = document.getElementById('car-' + slideType + '-' + i); const wrap = document.getElementById('wrap-' + slideType + '-' + i); if(car && wrap) { wrap.appendChild(car); car.style.transform = "scaleX(-1) scale(1)"; } } for(let i=1; i<=maxSlots; i++) { const slot = document.getElementById('slot-' + slideType + '-' + i); if(slot) slot.classList.remove('bg-blue-900/40', 'border-blue-500', 'bg-amber-900/40', 'border-amber-500'); } if(slideType === 1) document.getElementById('s1-math').innerHTML = 'รอรถเข้าเส้นชัย...'; else { document.getElementById('s2-math-step').innerHTML = 'คลิกหรือลากรถขึ้นโพเดียม...'; document.getElementById('s2-math-formula').classList.add('opacity-0'); } MathJax.typesetPromise(); }
-        let safeStep = 0; function initSafe() { safeStep = 0; const sequence = "0123456789012345678901234567890123456789"; for(let i=1; i<=4; i++) { const strip = document.getElementById('strip-'+i); strip.innerHTML = ''; strip.style.transition = 'none'; strip.style.transform = 'translateY(0px)'; sequence.split('').forEach(num => strip.innerHTML += `<div class="safe-num">${num}</div>`); document.getElementById('opt-'+i).classList.add('opacity-0'); } document.getElementById('s3-math').innerHTML = 'รอการวิเคราะห์...'; document.getElementById('btn-safe-step').classList.remove('hidden'); }
-        function analyzeSafeStep() { if(safeStep >= 4) return; safeStep++; const strip = document.getElementById('strip-' + safeStep); strip.style.transition = 'none'; strip.style.transform = 'translateY(0px)'; setTimeout(() => { const targetNum = Math.floor(Math.random() * 10) + 20; const itemHeight = 140; const finalY = -(targetNum * itemHeight); strip.style.transition = `transform 1.5s cubic-bezier(0.15, 1, 0.3, 1)`; strip.style.transform = `translateY(${finalY}px)`; }, 50); setTimeout(() => { document.getElementById('opt-' + safeStep).classList.remove('opacity-0'); let eqArray = Array(safeStep).fill('10'); let eqStr = eqArray.join(' \\times '); if(safeStep === 4) { eqStr += ' = 10,000 \\text{ (10}^4\\text{)}'; document.getElementById('btn-safe-step').classList.add('hidden'); } else eqStr += ' \\times \\dots'; const mathEl = document.getElementById('s3-math'); mathEl.innerHTML = `\\( ${eqStr} \\)`; MathJax.typesetPromise([mathEl]); }, 1600); }
+        
+        function updateMathSlide1() { 
+            let count = 0; for(let i=1; i<=5; i++) if(document.getElementById('slot-1-'+i).children.length > 0) count++; 
+            let eq = []; for(let i=0; i<count; i++) eq.push(5-i); 
+            let eqStr = eq.length > 0 ? eq.join(' \\times ') : ''; 
+            const m = document.getElementById('s1-math');
+            if (count === 0) { m.innerHTML = '<span class="font-sans">รอรถเข้าเส้นชัย...</span>'; return; } 
+            if (count < 5) {
+                m.innerHTML = `\\( ${eqStr} \\times \\dots \\)`;
+            } else if (count === 5) {
+                m.innerHTML = `\\( ${eqStr} = 120 \\) <span class="font-sans text-2xl font-normal ml-2">(5!)</span>`;
+            }
+            MathJax.typesetPromise([m]); 
+        }
+
+        function updateMathSlide2() { 
+            let count = 0; for(let i=1; i<=3; i++) if(document.getElementById('slot-2-'+i).children.length > 0) count++; 
+            let eq = []; for(let i=0; i<count; i++) eq.push(5-i); 
+            let eqStr = eq.length > 0 ? eq.join(' \\times ') : ''; 
+            const m = document.getElementById('s2-math-step');
+            if (count === 0) { m.innerHTML = '<span class="font-sans">คลิกหรือลากรถขึ้นโพเดียม...</span>'; return; } 
+            if (count < 3) {
+                m.innerHTML = `\\( ${eqStr} \\times \\dots \\)`;
+            } else if (count === 3) { 
+                m.innerHTML = `\\( ${eqStr} = 60 \\)`; 
+                document.getElementById('s2-math-formula').classList.remove('opacity-0'); 
+            } 
+            MathJax.typesetPromise([m]); 
+        }
+
+        function resetSlide(slideType) { const maxCars = 5; const maxSlots = slideType === 1 ? 5 : 3; for(let i=1; i<=maxCars; i++) { const car = document.getElementById('car-' + slideType + '-' + i); const wrap = document.getElementById('wrap-' + slideType + '-' + i); if(car && wrap) { wrap.appendChild(car); car.style.transform = "scaleX(-1) scale(1)"; } } for(let i=1; i<=maxSlots; i++) { const slot = document.getElementById('slot-' + slideType + '-' + i); if(slot) slot.classList.remove('bg-blue-900/40', 'border-blue-500', 'bg-amber-900/40', 'border-amber-500'); } if(slideType === 1) document.getElementById('s1-math').innerHTML = '<span class="font-sans">รอรถเข้าเส้นชัย...</span>'; else { document.getElementById('s2-math-step').innerHTML = '<span class="font-sans">คลิกหรือลากรถขึ้นโพเดียม...</span>'; document.getElementById('s2-math-formula').classList.add('opacity-0'); } MathJax.typesetPromise(); }
+        
+        let safeStep = 0; 
+        function initSafe() { safeStep = 0; const sequence = "0123456789012345678901234567890123456789"; for(let i=1; i<=4; i++) { const strip = document.getElementById('strip-'+i); strip.innerHTML = ''; strip.style.transition = 'none'; strip.style.transform = 'translateY(0px)'; sequence.split('').forEach(num => strip.innerHTML += `<div class="safe-num">${num}</div>`); document.getElementById('opt-'+i).classList.add('opacity-0'); } document.getElementById('s3-math').innerHTML = '<span class="font-sans">รอการวิเคราะห์...</span>'; document.getElementById('btn-safe-step').classList.remove('hidden'); }
+        function analyzeSafeStep() { if(safeStep >= 4) return; safeStep++; const strip = document.getElementById('strip-' + safeStep); strip.style.transition = 'none'; strip.style.transform = 'translateY(0px)'; setTimeout(() => { const targetNum = Math.floor(Math.random() * 10) + 20; const itemHeight = 140; const finalY = -(targetNum * itemHeight); strip.style.transition = `transform 1.5s cubic-bezier(0.15, 1, 0.3, 1)`; strip.style.transform = `translateY(${finalY}px)`; }, 50); setTimeout(() => { document.getElementById('opt-' + safeStep).classList.remove('opacity-0'); let eqArray = Array(safeStep).fill('10'); let eqStr = eqArray.join(' \\times '); const m = document.getElementById('s3-math'); if(safeStep === 4) { m.innerHTML = `\\( ${eqStr} = 10,000 \\) <span class="font-sans text-2xl font-normal ml-2">(10<sup>4</sup>)</span>`; document.getElementById('btn-safe-step').classList.add('hidden'); } else { m.innerHTML = `\\( ${eqStr} \\times \\dots \\)`; } MathJax.typesetPromise([m]); }, 1600); }
+        
         let lotStep6 = 0; function initLottery6() { lotStep6 = 0; document.getElementById('lot-zone-a').style = "opacity: 0.3; transform: scale(0.95);"; document.getElementById('lot-zone-b').style = "opacity: 0.3; transform: scale(0.95);"; document.getElementById('lot-operator').style.opacity = '0'; document.getElementById('lottery-ans6').classList.add('hidden'); const btn = document.getElementById('btn-lottery6'); btn.innerText = "วิเคราะห์การจับรางวัล โซน A"; btn.classList.remove('hidden', 'bg-emerald-600', 'hover:bg-emerald-500', 'bg-purple-600', 'hover:bg-purple-500'); btn.classList.add('bg-blue-600', 'hover:bg-blue-500'); }
         function nextLotteryStep6() { const btn = document.getElementById('btn-lottery6'); lotStep6++; if(lotStep6 === 1) { document.getElementById('lot-zone-a').style = "opacity: 1; transform: scale(1);"; btn.innerText = "วิเคราะห์การจับรางวัล โซน B"; btn.classList.replace('bg-blue-600', 'bg-emerald-600'); btn.classList.replace('hover:bg-blue-500', 'hover:bg-emerald-500'); } else if (lotStep6 === 2) { document.getElementById('lot-zone-b').style = "opacity: 1; transform: scale(1);"; btn.innerText = "รวมความน่าจะเป็น (กฎการคูณ)"; btn.classList.replace('bg-emerald-600', 'bg-purple-600'); btn.classList.replace('hover:bg-emerald-500', 'hover:bg-purple-500'); } else if (lotStep6 === 3) { document.getElementById('lot-operator').style.opacity = '1'; document.getElementById('lottery-ans6').classList.remove('hidden'); btn.classList.add('hidden'); } }
 
